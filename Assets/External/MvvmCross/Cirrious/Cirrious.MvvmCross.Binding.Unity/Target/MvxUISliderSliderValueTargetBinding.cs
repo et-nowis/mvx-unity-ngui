@@ -57,7 +57,7 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
                     if (handler == null)
                         handler = slider.gameObject.AddComponent<MvxUISliderOnSliderChangeEventHandler>();
                     handler.onValueChange += OnValueChanged;
-                } 
+                }
             }
         }
 

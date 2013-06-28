@@ -118,7 +118,7 @@ namespace Cirrious.CrossCore.Unity.Views
                     {
                         if (callback != null) callback();
                     };
-                    _onFinishedFieldInfo.SetValue(tween, onFinished);
+                    _onFinishedFieldInfo.SetValue(tween, onFinished.Cast(_onFinishedFieldInfo.FieldType));
                 }
                 else
                 {

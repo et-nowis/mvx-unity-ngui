@@ -22,6 +22,7 @@
 //
 
 using System;
+using System.Reflection;
 using Cirrious.MvvmCross.Unity.Views;
 using UnityEngine;
 
@@ -62,62 +63,81 @@ namespace Cirrious.CrossCore.Unity.Views
 
         public virtual void PresentViewController(UIViewController viewController, bool animated, Action action)
         {
-            GameObject go = viewController.gameObject;
+            GameObject gameObject = viewController.gameObject;
             GameObject parent = this.gameObject;
 
             if (parent != null)
             {
-                Transform t = go.transform;
-                t.parent = parent.transform;
-                t.localPosition = new Vector3(0, 0, UINavigationController.Instance.ViewControllers.Count * -10);
-                t.localRotation = Quaternion.identity;
-                t.localScale = Vector3.one;
-                go.layer = parent.layer;
+                Transform transform = gameObject.transform;
+                transform.parent = parent.transform;
+                transform.localPosition = new Vector3(0, 0, UINavigationController.Instance.ViewControllers.Count * -10);
+                transform.localRotation = Quaternion.identity;
+                transform.localScale = Vector3.one;
+                gameObject.layer = parent.layer;
             }
 
             if (viewController is IMvxModalUnityView)
             {
-                GameObject temp = new GameObject("CloseCollider");
-                Transform t = temp.transform;
-                t.parent = go.transform;
-                t.localPosition = new Vector3(0, 0, 1);
-                t.localRotation = Quaternion.identity;
-                temp.layer = LayerMask.NameToLayer("UI");
+                GameObject closeCollider = new GameObject("CloseCollider");
+                Transform transform = closeCollider.transform;
+                transform.parent = gameObject.transform;
+                transform.localPosition = new Vector3(0, 0, 1);
+                transform.localRotation = Quaternion.identity;
+                closeCollider.layer = LayerMask.NameToLayer("UI");
 
-                UIStretch uiStretch = temp.AddComponent<UIStretch>();
+                UIStretch uiStretch = closeCollider.AddComponent<UIStretch>();
                 uiStretch.style = UIStretch.Style.Both;
 
-                BoxCollider collider = temp.AddComponent<BoxCollider>();
+                BoxCollider collider = closeCollider.AddComponent<BoxCollider>();
                 collider.size = new Vector3(1f, 1f, 0f);
                 collider.isTrigger = true;
             }
 
-            UITweener tween = go.GetComponent<UITweener>();
-            if (tween != null)
-            {
-                tween.onFinished = t => { if (action != null) action(); };
-                tween.Play(true);
-            }
+            Animate(gameObject, true, action);
         }
 
         public virtual void DismissViewController(bool animated, Action action, bool destroy)
         {
-            UITweener tween = this.gameObject.GetComponent<UITweener>();
+            Animate(this.gameObject, false, () =>
+            {
+                if (action != null) action();
+                if (destroy) Destroy(this.gameObject);
+            });
+        }
+
+        private void Animate(GameObject gameObject, bool forward, Action callback)
+        {
+            UITweener tween = gameObject.GetComponent<UITweener>();
             if (tween != null)
             {
-                tween.onFinished = t =>
+                FieldInfo _onFinishedFieldInfo;
+                if ((_onFinishedFieldInfo = typeof(UITweener).GetField("onFinished")) != null)
                 {
-                    if (destroy)
-                        Destroy(this.gameObject);
-                };
-                tween.Play(false);
+                    //tween.onFinished = onFinished;
+                    Action<UITweener> onFinished = tweener =>
+                    {
+                        if (callback != null) callback();
+                    };
+                    _onFinishedFieldInfo.SetValue(tween, onFinished);
+                }
+                else
+                {
+                    tween.eventReceiver = tween.gameObject;
+                    tween.callWhenFinished = "OnTweenFinished";
+                    MvxUITweenerOnFinishedEventHandler handler = tween.GetComponent<MvxUITweenerOnFinishedEventHandler>();
+                    if (handler == null)
+                        handler = tween.gameObject.AddComponent<MvxUITweenerOnFinishedEventHandler>();
+                    handler.onFinished = tweener =>
+                    {
+                        if (callback != null) callback();
+                    };
+                }
+                tween.Play(forward);
             }
             else
             {
-                if (destroy)
-                    Destroy(this.gameObject);
+                if (callback != null) callback();
             }
-
         }
 
         public UIViewController parentViewController

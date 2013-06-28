@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 //
 
+using System;
 using System.Reflection;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Bindings.Target;
@@ -29,6 +30,9 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
 {
     public class MvxUISliderSliderValueTargetBinding : MvxPropertyInfoTargetBinding<UISlider>
     {
+        FieldInfo _onValueChangeFieldInfo;
+        Delegate _onValueChangedDelegate;
+        
         public MvxUISliderSliderValueTargetBinding(object target, PropertyInfo targetPropertyInfo)
             : base(target, targetPropertyInfo)
         {
@@ -39,7 +43,21 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
             }
             else
             {
-                slider.onValueChange += OnValueChanged;
+                if ((_onValueChangeFieldInfo = typeof(UISlider).GetField("onValueChange")) != null)
+                {
+                    //slider.onValueChange += OnValueChanged;
+                    Delegate onValueChange = _onValueChangeFieldInfo.GetValue(slider) as Delegate;
+                    _onValueChangedDelegate = Delegate.CreateDelegate(_onValueChangeFieldInfo.FieldType, this, "OnValueChanged");
+                    _onValueChangeFieldInfo.SetValue(slider, Delegate.Combine(onValueChange, _onValueChangedDelegate));
+                }
+                else
+                {
+                    slider.eventReceiver = slider.gameObject;
+                    MvxUISliderOnSliderChangeEventHandler handler = slider.GetComponent<MvxUISliderOnSliderChangeEventHandler>();
+                    if (handler == null)
+                        handler = slider.gameObject.AddComponent<MvxUISliderOnSliderChangeEventHandler>();
+                    handler.onValueChange += OnValueChanged;
+                } 
             }
         }
 
@@ -65,7 +83,18 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
                 var slider = View;
                 if (slider != null)
                 {
-                    slider.onValueChange -= OnValueChanged;
+                    if (_onValueChangeFieldInfo != null)
+                    {
+                        //slider.onValueChange -= OnValueChanged;
+                        Delegate onValueChange = _onValueChangeFieldInfo.GetValue(slider) as Delegate;
+                        _onValueChangeFieldInfo.SetValue(slider, Delegate.Remove(onValueChange, _onValueChangedDelegate));
+                    }
+                    else
+                    {
+                        MvxUISliderOnSliderChangeEventHandler handler = slider.GetComponent<MvxUISliderOnSliderChangeEventHandler>();
+                        if (handler != null)
+                            handler.onValueChange -= OnValueChanged;
+                    }
                 }
             }
         }

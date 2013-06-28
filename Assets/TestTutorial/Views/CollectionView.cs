@@ -1,4 +1,5 @@
 using Cirrious.MvvmCross.Binding.BindingContext;
+using Cirrious.MvvmCross.Binding.Unity.Views;
 using Cirrious.MvvmCross.Unity.Views;
 
 [MvxUnityView("TestTutorial/Views/CollectionView")]

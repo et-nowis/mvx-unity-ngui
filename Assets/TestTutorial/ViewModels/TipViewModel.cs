@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Input;
+using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.Messages;
 
@@ -49,34 +50,14 @@ namespace TestTutorial.ViewModels
             set { _testSpriteName = value; RaisePropertyChanged(() => TestSpriteName); }
         }
 
-
-        //private readonly MvxSubscriptionToken _mvxSubscription;
-
         public TipViewModel()
         {
-            // SubTotal = 60.0f;
-            // TipPercent = 12;
-            // Recalculate();
-
-            //_mvxSubscription = Subscribe<TestChangedMessage>(OnTestChangedMessage);
-
-        }
-
-        //public void Init( float First, string Second, string Answer )
-        //{
-        //	UnityEngine.Debug.Log( First );
-        //}
-
-        private void OnTestChangedMessage(TestChangedMessage message)
-        {
-            UnityEngine.Debug.Log("OnTestChangedMessage");
         }
 
         private void Recalculate()
         {
             TipValue = ((int)Math.Round(SubTotal * TipPercent)) / 100.0f;
             Total = TipValue + SubTotal;
-
         }
 
         public ICommand ClickCommand
@@ -85,11 +66,8 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    UnityEngine.Debug.Log("ClickCommand");
-                    //Publish(new TestChangedMessage(this));
-
+                    Mvx.Trace("ClickCommand");
                     ShowViewModel<TipViewModel>();
-
                 });
             }
         }
@@ -100,13 +78,9 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    UnityEngine.Debug.Log("PressCommand");
-
+                    Mvx.Trace("PressCommand");
                 });
             }
         }
-
-
     }
-
 }

@@ -82,9 +82,20 @@ namespace Cirrious.MvvmCross.Unity.Views.Presenters
                 return;
 
             }
+			
+			if (hint is MvxClearStackPresentationHint)
+			{
+				ClearStack();
+				return;
+			}
 
             base.ChangePresentation(hint);
         }
+		
+		public void ClearStack()
+		{
+			this._masterNavigationController.PopToRootViewController(false);
+		}
 
         public virtual void Close(IMvxViewModel toClose)
         {
@@ -92,21 +103,22 @@ namespace Cirrious.MvvmCross.Unity.Views.Presenters
 
             if (topViewController == null)
             {
-                MvxTrace.Warning("Don't know how to close this viewmodel - no topmost");
+                MvxTrace.Warning(string.Format( "Don't know how to close this viewmodel {0} - no topmost", toClose));
                 return;
             }
 
             var topView = topViewController as IMvxUnityView;
             if (topView == null)
             {
-                MvxTrace.Warning("Don't know how to close this viewmodel - topmost is not a IMvxUnityView");
+                MvxTrace.Warning(string.Format( "Don't know how to close this viewmodel {0} - topmost {1} is not a IMvxUnityView", toClose, topViewController));
                 return;
             }
 
             var viewModel = topView.ReflectionGetViewModel();
+			
             if (viewModel != toClose)
             {
-                MvxTrace.Warning("Don't know how to close this viewmodel - topmost view does not present this viewmodel");
+                MvxTrace.Warning(string.Format( "Don't know how to close this viewmodel {0} - topmost {1} does not present this viewmodel", toClose, topViewController));
                 return;
             }
 

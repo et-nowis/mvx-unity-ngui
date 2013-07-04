@@ -97,56 +97,6 @@ namespace TestTutorial.ViewModels
             }
         }
 
-        //public virtual ICommand CloseAllCommand
-        //{
-        //    get
-        //    {
-        //        return new MvxCommand(CloseAll);
-        //    }
-        //}
-
-        //public event EventHandler Closed;
-
-        //protected void Close()
-        //{
-        //    UnityEngine.Debug.Log("Close = " + this);
-        //    //if (Closed != null) Closed(this, EventArgs.Empty);
-
-        //    MvxClosePresentationHint hint = new MvxClosePresentationHint(this);
-
-        //    ChangePresentation(hint);
-        //}
-
-        //protected void CloseAll()
-        //{
-        //    UnityEngine.Debug.Log("CloseAll = " + this);
-        //    //if (Closed != null) Closed(this, EventArgs.Empty);
-
-        //    MvxCloseAllPresentationHint hint = new MvxCloseAllPresentationHint(this);
-
-        //    ChangePresentation(hint);
-        //}
-
-        //protected void ClearBackStack()
-        //{
-        //    UnityEngine.Debug.Log("ClearBackStack = " + this);
-        //    //if (Closed != null) Closed(this, EventArgs.Empty);
-
-        //    MvxClearBackStackPresentationHint hint = new MvxClearBackStackPresentationHint();
-
-        //    ChangePresentation(hint);
-        //}
-
-        //protected void Close()
-        //{
-        //    CloseHint hint = new CloseHint();
-
-        //    hint.ViewModelToClose = this;
-
-        //    ChangePresentation(hint);
-
-        //}
-
     }
 }
 

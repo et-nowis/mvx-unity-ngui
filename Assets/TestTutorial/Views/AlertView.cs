@@ -154,28 +154,7 @@ public class AlertView : BaseViewController, IMvxModalUnityView
         }
 
         UpdateConfirmButton();
-
-        //Debug.Log( buttonBound.size );
-        //Debug.Log( ButtonGroupBound.size );
-
-        //this.ButtonGroup.transform.localPosition = new Vector3( this.ButtonGroup.transform.localPosition.x - ( uiGrid.cellWidth * 0.5f ) * (i - 1), this.ButtonGroup.transform.localPosition.y, 0 );
-
     }
-
-    //protected override void Dispose(bool disposing)
-    //{
-    //    if (disposing)
-    //    {
-    //        foreach (UIButton button in buttons)
-    //        {
-    //            if (button != null)
-    //            {
-    //                UIEventListener.Get(button.gameObject).onClick -= OnButtonClick;
-    //            }
-    //        }
-    //    }
-    //    base.Dispose(disposing);
-    //}
 
     public void OnButtonClick(GameObject go)
     {

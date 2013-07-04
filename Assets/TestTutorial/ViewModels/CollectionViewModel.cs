@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.ViewModels;
 
@@ -33,12 +34,8 @@ public class CollectionViewModel : BaseViewModel
         {
             return new MvxCommand<CellViewModel>(item =>
             {
-                UnityEngine.Debug.Log((item as CellViewModel).CellValue);
+                Mvx.Trace("{0}", item.CellValue);
             });
         }
     }
-
-
-
-
 }

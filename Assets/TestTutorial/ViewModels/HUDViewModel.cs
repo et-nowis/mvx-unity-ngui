@@ -16,18 +16,12 @@ namespace TestTutorial.ViewModels
         {
         }
 
-        //public void Init( float First, string Second, string Answer )
-        //{
-        //	UnityEngine.Debug.Log( First );
-        //}
-
         public ICommand TipView1Command
         {
             get
             {
                 return new MvxCommand(() =>
                 {
-                    UnityEngine.Debug.Log("TipView1Command");
                     ShowViewModel<TipViewModel>();
                 });
             }

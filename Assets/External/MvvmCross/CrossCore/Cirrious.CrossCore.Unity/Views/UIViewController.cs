@@ -110,28 +110,10 @@ namespace Cirrious.CrossCore.Unity.Views
             UITweener tween = gameObject.GetComponent<UITweener>();
             if (tween != null)
             {
-                FieldInfo _onFinishedFieldInfo;
-                if ((_onFinishedFieldInfo = typeof(UITweener).GetField("onFinished")) != null)
+                tween.onFinished = tweener =>
                 {
-                    //tween.onFinished = onFinished;
-                    Action<UITweener> onFinished = tweener =>
-                    {
-                        if (callback != null) callback();
-                    };
-                    _onFinishedFieldInfo.SetValue(tween, onFinished.Cast(_onFinishedFieldInfo.FieldType));
-                }
-                else
-                {
-                    tween.eventReceiver = tween.gameObject;
-                    tween.callWhenFinished = "OnTweenFinished";
-                    MvxUITweenerOnFinishedEventHandler handler = tween.GetComponent<MvxUITweenerOnFinishedEventHandler>();
-                    if (handler == null)
-                        handler = tween.gameObject.AddComponent<MvxUITweenerOnFinishedEventHandler>();
-                    handler.onFinished = tweener =>
-                    {
-                        if (callback != null) callback();
-                    };
-                }
+                    if (callback != null) callback();
+                };
                 tween.Play(forward);
             }
             else

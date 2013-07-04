@@ -30,9 +30,6 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
 {
     public class MvxUICheckboxIsCheckedTargetBinding : MvxPropertyInfoTargetBinding<UICheckbox>
     {
-        FieldInfo _onStateChangeFieldInfo;
-        Delegate _onStateChangedDelegate;
-
         public MvxUICheckboxIsCheckedTargetBinding(object target, PropertyInfo targetPropertyInfo)
             : base(target, targetPropertyInfo)
         {
@@ -43,25 +40,11 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
             }
             else
             {
-                if ((_onStateChangeFieldInfo = typeof(UICheckbox).GetField("onStateChange")) != null)
-                {
-                    //checkbox.onStateChange += OnStateChanged;
-                    Delegate onStateChange = _onStateChangeFieldInfo.GetValue(checkbox) as Delegate;
-                    _onStateChangedDelegate = Delegate.CreateDelegate(_onStateChangeFieldInfo.FieldType, this, "OnStateChanged");
-                    _onStateChangeFieldInfo.SetValue(checkbox, Delegate.Combine(onStateChange, _onStateChangedDelegate));
-                }
-                else
-                {
-                    checkbox.eventReceiver = checkbox.gameObject;
-                    MvxUICheckboxOnActivateEventHandler handler = checkbox.GetComponent<MvxUICheckboxOnActivateEventHandler>();
-                    if (handler == null)
-                        handler = checkbox.gameObject.AddComponent<MvxUICheckboxOnActivateEventHandler>();
-                    handler.onStateChange += OnStateChanged;
-                }
+                checkbox.onStateChange += OnStateChanged;
             }
         }
 
-        public void OnStateChanged(bool state)
+        private void OnStateChanged(bool state)
         {
             var checkbox = View;
             if (checkbox != null)
@@ -82,18 +65,7 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
                 var checkbox = View;
                 if (checkbox != null)
                 {
-                    if (_onStateChangeFieldInfo != null)
-                    {
-                        //checkbox.onStateChange -= OnStateChanged;
-                        Delegate onStateChange = _onStateChangeFieldInfo.GetValue(checkbox) as Delegate;
-                        _onStateChangeFieldInfo.SetValue(checkbox, Delegate.Remove(onStateChange, _onStateChangedDelegate));
-                    }
-                    else
-                    {
-                        MvxUICheckboxOnActivateEventHandler handler = checkbox.GetComponent<MvxUICheckboxOnActivateEventHandler>();
-                        if (handler != null)
-                            handler.onStateChange -= OnStateChanged;
-                    }
+                    checkbox.onStateChange -= OnStateChanged;
                 }
             }
             base.Dispose(isDisposing);

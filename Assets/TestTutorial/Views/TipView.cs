@@ -38,15 +38,10 @@ public class TipView : BaseViewController
 					 { clickButton , "onClick ClickCommand" },
 					 { closeButton , "onClick CloseCommand" },
 					 { pressButton , "onPress PressCommand" },
-                 });
+                });
 
-
-        //Debug.Log( this.ViewModel );
         this.ViewModel.TipValue = 0.25f;
         this.ViewModel.IsTipLabelActive = true;
         this.ViewModel.TestSpriteName = "Light";
     }
-
 }
-
-

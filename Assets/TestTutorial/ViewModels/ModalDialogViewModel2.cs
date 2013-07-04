@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.Messages;
 
@@ -23,21 +24,17 @@ namespace TestTutorial.ViewModels
             this.Message = parameters.message;
         }
 
-
         public override ICommand CloseCommand
         {
             get
             {
                 return new MvxCommand(() =>
                 {
-                    UnityEngine.Debug.Log("ClickCommand");
-                    //this.Close();
+                    Mvx.Trace("ClickCommand");
                     this.Close(this);
                     ButtonClickMessage message = new ButtonClickMessage(this);
                     message.ButtonIndex = 0;
                     Publish(message);
-
-
                 });
             }
         }
@@ -48,14 +45,11 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    UnityEngine.Debug.Log("OkCommand");
-                    //this.Close();
+                    Mvx.Trace("OkCommand");
                     ButtonClickMessage message = new ButtonClickMessage(this);
                     message.ButtonIndex = 1;
                     Publish(message);
-
                     ShowViewModel<ModalDialogViewModel>();
-
                 });
             }
         }
@@ -66,17 +60,13 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    UnityEngine.Debug.Log("CancelCommand");
+                    Mvx.Trace("CancelCommand");
                     this.Close(this);
                     ButtonClickMessage message = new ButtonClickMessage(this);
                     message.ButtonIndex = 2;
                     Publish(message);
-
-
                 });
             }
         }
-
-
     }
 }

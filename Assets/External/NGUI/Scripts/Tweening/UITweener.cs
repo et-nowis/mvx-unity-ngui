@@ -27,7 +27,15 @@ public abstract class UITweener : IgnoreTimeScale
 		PingPong,
 	}
 
-	/// <summary>
+    public delegate void OnFinished(UITweener tween);
+
+    /// <summary>
+    /// Delegate for subscriptions. Faster than using the 'eventReceiver' and allows for multiple receivers.
+    /// </summary>
+
+    public OnFinished onFinished;
+    
+    /// <summary>
 	/// Tweening method used.
 	/// </summary>
 
@@ -190,7 +198,10 @@ public abstract class UITweener : IgnoreTimeScale
 			}
 			else
 			{
-				if (eventReceiver != null && !string.IsNullOrEmpty(callWhenFinished))
+                // Notify the listener delegate
+                if (onFinished != null) onFinished(this); 
+                
+                if (eventReceiver != null && !string.IsNullOrEmpty(callWhenFinished))
 				{
 					// Notify the event listener target
 					eventReceiver.SendMessage(callWhenFinished, this, SendMessageOptions.DontRequireReceiver);
@@ -262,7 +273,11 @@ public abstract class UITweener : IgnoreTimeScale
 #endif
 		comp.duration = duration;
 		comp.mFactor = 0f;
+		comp.mAmountPerDelta = Mathf.Abs(comp.mAmountPerDelta);
 		comp.style = Style.Once;
+		comp.eventReceiver = null;
+		comp.callWhenFinished = null;
+		comp.onFinished = null;
 		comp.enabled = true;
 		return comp;
 	}

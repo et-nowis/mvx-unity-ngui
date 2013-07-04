@@ -14,11 +14,19 @@ using AnimationOrTween;
 public class UICheckbox : MonoBehaviour
 {
 	static public UICheckbox current;
+    public delegate void OnStateChange(bool state);
 
 	public UISprite checkSprite;
 	public Animation checkAnimation;
 	public GameObject eventReceiver;
 	public string functionName = "OnActivate";
+
+    /// <summary>
+    /// Delegate that will be called when the checkbox's state changes. Faster than using 'eventReceiver'.
+    /// </summary>
+
+    public OnStateChange onStateChange;
+
 	public bool startsChecked = true;
 	public Transform radioButtonRoot;
 	public bool optionCanBeNone = false;
@@ -112,12 +120,17 @@ public class UICheckbox : MonoBehaviour
 				TweenColor.Begin(checkSprite.gameObject, 0.2f, c);
 			}
 
-			// Send out the event notification
+            current = this;
+
+            // Notify the delegate
+            if (onStateChange != null) onStateChange(mChecked);
+            
+            // Send out the event notification
 			if (eventReceiver != null && !string.IsNullOrEmpty(functionName))
 			{
-				current = this;
 				eventReceiver.SendMessage(functionName, mChecked, SendMessageOptions.DontRequireReceiver);
 			}
+            current = null;
 
 			// Play the checkmark animation
 			if (checkAnimation != null)

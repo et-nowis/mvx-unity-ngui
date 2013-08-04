@@ -3,7 +3,9 @@ using System.Windows.Input;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.ViewModels;
+using Cirrious.MvvmCross.Unity.Views;
 
+[MvxUnityView("TestTutorial/Views/CollectionView")]
 public class CollectionViewModel : BaseViewModel
 {
     private ObservableCollection<CellViewModel> _list = new ObservableCollection<CellViewModel>();

@@ -1,8 +1,10 @@
 using System.Windows.Input;
 using Cirrious.MvvmCross.ViewModels;
+using Cirrious.MvvmCross.Unity.Views;
 
 namespace TestTutorial.ViewModels
 {
+	[MvxUnityView("TestTutorial/Views/HUDView")]
     public class HUDViewModel : BaseViewModel
     {
         private float _tipValue;

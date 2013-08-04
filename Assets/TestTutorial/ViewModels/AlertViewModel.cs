@@ -2,9 +2,12 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.Messages;
+using Cirrious.MvvmCross.Binding.BindingContext;
+using Cirrious.MvvmCross.Unity.Views;
 
 namespace TestTutorial.ViewModels
 {
+	[MvxUnityView("TestTutorial/Views/AlertView")]
     public class AlertViewModel : BaseViewModel
     {
         private Collection<string> _buttonTexts = new Collection<string>();

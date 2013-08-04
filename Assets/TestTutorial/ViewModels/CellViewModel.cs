@@ -1,8 +1,10 @@
 using System.Windows.Input;
 using Cirrious.MvvmCross.ViewModels;
+using Cirrious.MvvmCross.Unity.Views;
 
 namespace TestTutorial.ViewModels
 {
+	[MvxUnityView("TestTutorial/Views/CellView")]
     public class CellViewModel : BaseViewModel
     {
         private float _cellValue;

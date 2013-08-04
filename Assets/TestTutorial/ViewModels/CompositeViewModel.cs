@@ -1,5 +1,6 @@
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.ViewModels;
+using Cirrious.MvvmCross.Unity.Views;
 
 public class CompositeViewModel
     : MvxViewModel

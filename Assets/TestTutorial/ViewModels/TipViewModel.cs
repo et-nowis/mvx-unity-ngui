@@ -3,9 +3,11 @@ using System.Windows.Input;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.Messages;
+using Cirrious.MvvmCross.Unity.Views;
 
 namespace TestTutorial.ViewModels
 {
+	[MvxUnityView("TestTutorial/Views/TipView")]
     public class TipViewModel : BaseViewModel
     {
         private float _tipValue;

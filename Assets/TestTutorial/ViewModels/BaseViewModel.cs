@@ -6,6 +6,7 @@ using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.Models;
+using Cirrious.MvvmCross.Unity.Views;
 
 namespace TestTutorial.ViewModels
 {

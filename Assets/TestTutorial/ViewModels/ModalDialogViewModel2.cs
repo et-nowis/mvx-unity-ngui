@@ -2,9 +2,11 @@ using System.Windows.Input;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.Messages;
+using Cirrious.MvvmCross.Unity.Views;
 
 namespace TestTutorial.ViewModels
 {
+	[MvxUnityView("TestTutorial/Views/ModalDialogView2")]
     public class ModalDialogViewModel2 : BaseViewModel
     {
         private string _message;

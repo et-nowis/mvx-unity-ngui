@@ -84,12 +84,13 @@ namespace Cirrious.MvvmCross.Unity.Platform
 
         protected override sealed MvxViewsContainer CreateViewsContainer()
         {
-            var container = new MvxUnityViewsContainer();
+            //var container = new MvxUnityViewsContainer();
+			var container = new MvxUnityGenericViewsContainer();
             RegisterUnityViewCreator(container);
             return container;
         }
 
-        protected virtual void RegisterUnityViewCreator(MvxUnityViewsContainer container)
+        protected virtual void RegisterUnityViewCreator(IMvxUnityViewCreator container)
         {
             Mvx.RegisterSingleton<IMvxUnityViewCreator>(container);
             Mvx.RegisterSingleton<IMvxCurrentRequest>(container);

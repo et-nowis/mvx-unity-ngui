@@ -1,9 +1,11 @@
 using System.Windows.Input;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
+using Cirrious.MvvmCross.Unity.Views;
 
 namespace TestTutorial.ViewModels
 {
+	[MvxUnityView("TestTutorial/Views/GameObjectView")]
     public class GameObjectViewModel : BaseViewModel
     {
         private string _spriteName;

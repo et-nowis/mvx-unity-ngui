@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CF5090F1-9A50-48DA-815A-31887EFCB074}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cirrious</RootNamespace>
+    <AssemblyName>Cirrious.MvvmCross</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\mvx-deployment\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Attributes\MvxSetToNullAfterBindingAttribute.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Attributes\MvxViewAttribute.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\IMvxAutoValueConverters.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\IMvxBinder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\IMvxBindingDescriptionParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\IMvxValueConverterLookup.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\IMvxValueConverterRegistryFiller.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\MvxAutoValueConverters.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\MvxBindingDescription.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\MvxFromTextBinder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\MvxRegistryFillerExtensions.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\MvxValueConverterRegistry.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Binders\MvxValueConverterRegistryFiller.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\IMvxBindingContext.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\IMvxBindingContextOwner.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\IMvxBindingContextStack.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\IMvxBindingNameLookup.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\IMvxBindingNameRegistry.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBaseFluentBindingDescription.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBindExtensions.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBindingContext.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBindingContextOwnerExtensions.Clear.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBindingContextOwnerExtensions.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBindingContextOwnerExtensions.Fluent.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBindingContextOwnerExtensions.Language.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBindingContextOwnerExtensions.Statics.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBindingContextStack.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBindingContextStackRegistration.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxBindingNameRegistry.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxFluentBindingDescription.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxFluentBindingDescriptionSet.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\BindingContext\MvxInlineBindingTarget.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\IMvxBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\IMvxUpdateableBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\MvxBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\MvxBindingModeExtensionMethods.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\MvxCompositeBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\MvxFullBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\Chained\MvxChainedSourceBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\Chained\MvxIndexerChainedSourceBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\Chained\MvxSimpleChainedSourceBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\Construction\IMvxSourceBindingFactory.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\Construction\MvxSourceBindingFactory.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\IMvxSourceBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\Leaf\MvxDirectToSourceBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\Leaf\MvxIndexerLeafPropertyInfoSourceBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\Leaf\MvxLeafPropertyInfoSourceBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\Leaf\MvxSimpleLeafPropertyInfoSourceBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\MvxPropertyInfoSourceBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\MvxSourceBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Source\MvxSourcePropertyBindingEventArgs.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\Construction\IMvxPluginTargetBindingFactory.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\Construction\IMvxTargetBindingFactory.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\Construction\IMvxTargetBindingFactoryRegistry.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\Construction\MvxCustomBindingFactory.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\Construction\MvxPropertyInfoTargetBindingFactory.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\Construction\MvxSimplePropertyInfoTargetBindingFactory.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\Construction\MvxTargetBindingFactoryRegistry.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\Construction\MvxTargetBindingFactoryRegistryExtensions.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\Construction\MvxTypeAndNamePair.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\IMvxTargetBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\MvxEventHandlerEventInfoTargetBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\MvxEventInfoTargetBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\MvxNullTargetBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\MvxPropertyInfoTargetBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\MvxTargetBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\MvxTargetChangedEventArgs.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Bindings\Target\MvxWithEventPropertyInfoTargetBinding.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\ExpressionParse\IMvxParsedExpression.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\ExpressionParse\IMvxPropertyExpressionParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\ExpressionParse\MvxParsedExpression.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\ExpressionParse\MvxPropertyExpressionParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\ExtensionMethods\MvxEnumerableExtensions.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\ExtensionMethods\MvxTypeExtensions.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\IMvxBindingSingletonCache.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\MvxBindingBuilder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\MvxBindingMode.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\MvxBindingRequest.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\MvxBindingSingletonCache.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\MvxBindingTrace.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\MvxCoreBindingBuilder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\Binding\Composite\MvxCompositeBindingParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\Binding\IMvxBindingParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\Binding\Json\MvxJsonBindingParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\Binding\Lang\IMvxLanguageBindingParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\Binding\Lang\MvxLanguageBindingParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\Binding\MvxBindingDescriptionParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\Binding\MvxBindingParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\Binding\MvxSerializableBindingDescription.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\Binding\MvxSerializableBindingSpecification.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\Binding\Swiss\MvxSwissBindingParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\PropertyPath\IMvxSourcePropertyPathParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\PropertyPath\MvxSourcePropertyPathParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\PropertyPath\PropertyTokens\MvxEmptyPropertyToken.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\PropertyPath\PropertyTokens\MvxIndexerPropertyToken.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\PropertyPath\PropertyTokens\MvxIntegerIndexerPropertyToken.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\PropertyPath\PropertyTokens\MvxPropertyNamePropertyToken.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\PropertyPath\PropertyTokens\MvxPropertyToken.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Parse\PropertyPath\PropertyTokens\MvxStringIndexerPropertyToken.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\ValueConverters\MvxCommandParameterValueConverter.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\ValueConverters\MvxWrappingCommand.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Binding\Views\MvxBaseImageViewLoader.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Localization\IMvxLanguageBinder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Localization\IMvxTextProvider.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Localization\MvxLanguageBinder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross.Localization\MvxLanguageConverter.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\IMvxSingletonCache.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\MvxSingletonCache.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Parse\StringDictionary\IMvxStringDictionaryParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Parse\StringDictionary\IMvxStringDictionaryWriter.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Parse\StringDictionary\MvxStringDictionaryParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Parse\StringDictionary\MvxStringDictionaryWriter.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Parse\StringDictionary\MvxViewModelRequestCustomTextSerializer.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\IMvxFillableStringToTypeParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\IMvxLifetime.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\IMvxSettings.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\IMvxStringToTypeParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\MvxLifetimeEvent.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\MvxLifetimeEventArgs.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\MvxLifetimeMonitor.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\MvxSettings.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\MvxSetup.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\MvxSimplePropertyDictionaryExtensionMethods.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\MvxStringToTypeParser.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Platform\MvxStringToTypeParserSingleton.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxApplication.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxAppStart.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxBundle.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxCommand.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxCommandCollection.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxCommandCollectionBuilder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxInpcInterceptor.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxNavigationSerializer.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxNotifyPropertyChanged.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxTypeFinder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxTypeToTypeLookupBuilder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxViewModel.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxViewModelByNameLookup.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxViewModelLoader.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxViewModelLocator.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxViewModelLocatorCollection.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\IMvxViewModelTypeFinder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxApplication.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxAppStart.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxBundle.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxClearStackPresentationHint.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxClosePresentationHint.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxCommand.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxCommandAttribute.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxCommandCollection.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxCommandCollectionBuilder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxDefaultViewModelLocator.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxInpcInterceptionResult.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxJsonNavigationSerializer.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxNavigatingObject.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxNavigationSerializer.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxNotifyPropertyChanged.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxNotifyPropertyExtensionMethods.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxNullViewModel.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxPresentationHint.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxPropertyChangedListener.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxRequestedBy.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxRequestedByType.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxStringDictionaryNavigationSerializer.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxViewForAttribute.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxViewModel.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxViewModelByNameLookup.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxViewModelExtensions.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxViewModelLoader.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxViewModelRequest.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxViewModelViewLookupBuilder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\ViewModels\MvxViewModelViewTypeFinder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Views\IMvxView.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Views\IMvxViewDispatcher.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Views\IMvxViewFinder.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Views\IMvxViewPresenter.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Views\IMvxViewsContainer.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Views\MvxViewExtensionMethods.cs" />
+    <Compile Include="Cirrious\Cirrious.MvvmCross\Views\MvxViewsContainer.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Converters\IMvxValueConverter.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Converters\IMvxValueConverterRegistry.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Converters\MvxValueConverter.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\IMvxApplicable.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\IMvxApplicableTo.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\IMvxDataConsumer.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\IMvxDisposeSource.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\IMvxMainThreadDispatcher.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxAllThreadDispatchingObject.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxApplicable.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxApplicableExtensions.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxApplicableTo.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxAsyncDispatcher.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxEventInfoExtensions.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxLockableObject.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxLockableObjectHelpers.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxMainThreadDispatcher.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxMainThreadDispatchingObject.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxPropertyNameExtensionMethods.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxSingleton.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Core\MvxValueEventArgs.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Exceptions\MvxException.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Exceptions\MvxExceptionExtensionMethods.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\IMvxConsumer.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\IMvxIoCProvider.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\IMvxProducer.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\IMvxTypeCache.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\MvxConditionalConventionalAttribute.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\MvxConventionAttributeExtensionMethods.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\MvxIoCExtensions.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\MvxLazySingletonCreator.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\MvxPropertyInjectingIoCContainer.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\MvxSimpleIoCContainer.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\MvxTypeCache.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\MvxTypeExtensions.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\IoC\MvxUnconventionalAttribute.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Mvx.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Parse\MvxParser.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\IMvxBootstrapAction.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\IMvxImageHelper.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\IMvxJsonConverter.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\IMvxResourceLoader.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\IMvxTextSerializer.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\IMvxTrace.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\MvxBootstrapRunner.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\MvxDebugOnlyTrace.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\MvxStopWatch.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\MvxTrace.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Platform\MvxTraceLevel.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\IMvxConfigurablePlugin.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\IMvxConfigurablePluginLoader.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\IMvxLoaderPluginManager.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\IMvxPlugin.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\IMvxPluginConfiguration.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\IMvxPluginLoader.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\IMvxPluginManager.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\MvxFilePluginManager.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\MvxLoaderPluginBootstrapAction.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\MvxLoaderPluginManager.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\MvxLoaderPluginRegistry.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\MvxPluginBootstrapAction.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\Plugins\MvxPluginManager.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\UI\IMvxNativeColor.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\UI\IMvxNativeVisibility.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\UI\MvxColor.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\UI\MvxVisibility.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\WeakSubscription\MvxGeneralEventSubscription.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\WeakSubscription\MvxNamedNotifyPropertyChangedEventSubscription.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\WeakSubscription\MvxNotifyCollectionChangedEventSubscription.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\WeakSubscription\MvxNotifyPropertyChangedEventSubscription.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\WeakSubscription\MvxValueEventSubscription.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\WeakSubscription\MvxWeakEventSubscription.cs" />
+    <Compile Include="CrossCore\Cirrious.CrossCore\WeakSubscription\MvxWeakSubscriptionExtensionMethods.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\IMvxMessenger.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\MvxMessage.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\MvxMessengerHub.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\MvxReference.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\MvxSubscriberChangeMessage.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\MvxSubscriptionToken.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\PluginLoader.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\Subscriptions\BaseSubscription.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\Subscriptions\StrongSubscription.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\Subscriptions\TypedSubscription.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\Subscriptions\WeakSubscription.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\ThreadRunners\IMvxActionRunner.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\ThreadRunners\MvxMainThreadActionRunner.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\ThreadRunners\MvxSimpleActionRunner.cs" />
+    <Compile Include="Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\ThreadRunners\MvxThreadpoolActionRunner.cs" />
+    <Compile Include="Plugins\Cirrious\Sqlite\Cirrious.MvvmCross.Plugins.Sqlite.Unity\MvxUnitySQLiteConnectionFactory.cs" />
+    <Compile Include="Plugins\Cirrious\Sqlite\Cirrious.MvvmCross.Plugins.Sqlite.Unity\Plugin.cs" />
+    <Compile Include="Plugins\Cirrious\Sqlite\Cirrious.MvvmCross.Plugins.Sqlite\BaseClasses.cs" />
+    <Compile Include="Plugins\Cirrious\Sqlite\Cirrious.MvvmCross.Plugins.Sqlite\PluginLoader.cs" />
+    <Compile Include="Plugins\Cirrious\Sqlite\Cirrious.MvvmCross.Plugins.Sqlite\SharedFile\SQLiteNet.cs" />
+    <Compile Include="PortableSupport\System.Windows\System.Collections.ObjectModel\ObservableCollection.cs" />
+    <Compile Include="PortableSupport\System.Windows\System.Collections.Specialized\INotifyCollectionChanged.cs" />
+    <Compile Include="PortableSupport\System.Windows\System.Collections.Specialized\NotifyCollectionChangedAction.cs" />
+    <Compile Include="PortableSupport\System.Windows\System.Collections.Specialized\NotifyCollectionChangedEventArgs.cs" />
+    <Compile Include="PortableSupport\System.Windows\System.Collections.Specialized\NotifyCollectionChangedEventHandler.cs" />
+    <Compile Include="PortableSupport\System.Windows\System.ComponentModel\DataErrorsChangedEventArgs.cs" />
+    <Compile Include="PortableSupport\System.Windows\System.ComponentModel\INotifyDataErrorInfo.cs" />
+    <Compile Include="PortableSupport\System.Windows\System.Windows.Input\ICommand.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

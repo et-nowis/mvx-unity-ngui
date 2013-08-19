@@ -1,0 +1,28 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\External\MvvmCross\PortableSupport\System.Windows\System.Windows.Input\ICommand.cs">
+    <Files>
+      <File FileName="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxUnityGenericViewsContainer.cs" Line="96" Column="1" />
+      <File FileName="Assets\TestTutorial\Views\MainMenuView.cs" Line="1" Column="1" />
+      <File FileName="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\Presenters\MvxUnityViewPresenter.cs" Line="1" Column="1" />
+      <File FileName="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxUnityViewDispatcher.cs" Line="1" Column="1" />
+      <File FileName="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxUnityUIThreadDispatcher.cs" Line="1" Column="1" />
+      <File FileName="Assets\TestTutorial\TestTutorialAppDelegate.cs" Line="1" Column="1" />
+      <File FileName="Assets\TestTutorial\ViewModels\MainMenuViewModel.cs" Line="1" Column="1" />
+      <File FileName="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Views\IMvxBindable.cs" Line="1" Column="1" />
+      <File FileName="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Views\MvxCollectionViewSource.cs" Line="28" Column="8" />
+      <File FileName="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\MvxUnityBindingBuilder.cs" Line="85" Column="63" />
+      <File FileName="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Target\MvxComponentOnEventTargetBinding.cs" Line="25" Column="7" />
+      <File FileName="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Target\MvxGameObjectOnEventTargetBinding.cs" Line="25" Column="8" />
+      <File FileName="Assets\External\MvvmCross\PortableSupport\System.Windows\System.Windows.Input\ICommand.cs" Line="8" Column="11" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="C:\_jordan\GitHub\JordanMarr\mvx-unity-ngui-test\Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxUnityGenericViewsContainer.cs" line="44" />
+      <Breakpoint file="C:\_jordan\GitHub\JordanMarr\mvx-unity-ngui-test\Assets\TestTutorial\ViewModels\MainMenuViewModel.cs" line="17" />
+      <Breakpoint file="C:\_jordan\GitHub\JordanMarr\mvx-unity-ngui-test\Assets\TestTutorial\ViewModels\MainMenuViewModel.cs" line="29" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

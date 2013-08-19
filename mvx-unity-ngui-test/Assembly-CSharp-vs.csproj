@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{E4292A0A-36F6-E52F-0A46-A45CFD3ADAE8}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="UnityEngine">
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\MvxUnityBindingBuilder.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Target\MvxComponentOnEventTargetBinding.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Target\MvxGameObjectActiveTargetBinding.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Target\MvxGameObjectOnEventTargetBinding.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Target\MvxUICheckboxIsCheckedTargetBinding.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Target\MvxUILabelTextTargetBinding.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Target\MvxUISliderSliderValueTargetBinding.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Views\IMvxBindable.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Binding.Unity\Views\MvxCollectionViewSource.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\ContinueAfterSeconds.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\IMvxUnityPlatformProperties.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\MvxApplicationDelegate.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\MvxDebugTrace.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\MvxUnityDisplayDensity.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\MvxUnityFormFactor.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\MvxUnityPlatformProperties.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\MvxUnitySetup.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\UIThreadDispatcher.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\UIThreadDispatcherRunner.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Platform\UnitySynchronizationContext.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\ViewBinder.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\IMvxCanCreateUnityView.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\IMvxCurrentRequest.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\IMvxModalUnityView.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\IMvxUnityNavigator.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\IMvxUnityView.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\IMvxUnityViewCreator.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxBindingViewControllerAdapter.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxCanCreateUnityViewExtensionMethods.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxCollectionViewController.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxFormFactorSpecificAttribute.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxTabBarViewController.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxUnityGenericViewsContainer.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxUnityUIThreadDispatcher.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxUnityViewDispatcher.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxViewController.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxViewControllerAdapter.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxViewControllerAdaptingExtensions.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxViewControllerExtensionMethods.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\MvxViewModelInstanceRequest.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\Presenters\IMvxUnityViewPresenter.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\Presenters\MvxBaseUnityViewPresenter.cs" />
+     <Compile Include="Assets\External\MvvmCross\Cirrious\Cirrious.MvvmCross.Unity\Views\Presenters\MvxUnityViewPresenter.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\IMvxEventSourceViewController.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\IMvxUnityModalHost.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\LayerMaskExtensions.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\MvxBaseViewControllerAdapter.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\MvxDelegateExtensionMethods.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\MvxEventSourceCollectionViewController.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\MvxEventSourceTabBarController.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\MvxEventSourceViewController.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\MvxUITweenerOnFinishedEventHandler.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\UICollectionViewController.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\UIDialogViewController.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\UIExtensions.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\UINavigationController.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\UITabBarController.cs" />
+     <Compile Include="Assets\External\MvvmCross\CrossCore\Cirrious.CrossCore.Unity\Views\UIViewController.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\IMvxMessenger.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\MvxMessage.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\MvxMessengerHub.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\MvxReference.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\MvxSubscriberChangeMessage.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\MvxSubscriptionToken.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\PluginLoader.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\Subscriptions\BaseSubscription.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\Subscriptions\StrongSubscription.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\Subscriptions\TypedSubscription.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\Subscriptions\WeakSubscription.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\ThreadRunners\IMvxActionRunner.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\ThreadRunners\MvxMainThreadActionRunner.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\ThreadRunners\MvxSimpleActionRunner.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Messenger\Cirrious.MvvmCross.Plugins.Messenger\ThreadRunners\MvxThreadpoolActionRunner.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Sqlite\Cirrious.MvvmCross.Plugins.Sqlite.Unity\MvxUnitySQLiteConnectionFactory.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Sqlite\Cirrious.MvvmCross.Plugins.Sqlite.Unity\Plugin.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Sqlite\Cirrious.MvvmCross.Plugins.Sqlite\BaseClasses.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Sqlite\Cirrious.MvvmCross.Plugins.Sqlite\PluginLoader.cs" />
+     <Compile Include="Assets\External\MvvmCross\Plugins\Cirrious\Sqlite\Cirrious.MvvmCross.Plugins.Sqlite\SharedFile\SQLiteNet.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\LanguageSelection.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIButton.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIButtonColor.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIButtonKeys.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIButtonMessage.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIButtonOffset.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIButtonPlayAnimation.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIButtonRotation.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIButtonScale.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIButtonSound.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIButtonTween.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UICheckbox.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UICheckboxControlledComponent.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UICheckboxControlledObject.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIDragCamera.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIDragObject.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIDragPanelContents.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIDraggableCamera.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIDraggablePanel.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIForwardEvents.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIGrid.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIImageButton.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIInputValidator.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIPopupList.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UISavedOption.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UIScrollBar.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UISlider.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UISliderColors.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Interaction\UITable.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Internal\Localization.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Internal\SpringPanel.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Tweening\TweenColor.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Tweening\TweenPosition.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Tweening\TweenRotation.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Tweening\TweenScale.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Tweening\TweenTransform.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Tweening\TweenVolume.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\Tweening\UITweener.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIAnchor.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIAtlas.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UICamera.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIFilledSprite.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIFont.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIInput.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIInputSaved.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UILabel.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UILocalize.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIOrthoCamera.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIPanel.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIRoot.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UISlicedSprite.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UISprite.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UISpriteAnimation.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIStretch.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UITextList.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UITexture.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UITiledSprite.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UITooltip.cs" />
+     <Compile Include="Assets\External\NGUI\Scripts\UI\UIViewport.cs" />
+     <Compile Include="Assets\TestTutorial\Converters\Converters.cs" />
+     <Compile Include="Assets\TestTutorial\Converters\FloatConverter.cs" />
+     <Compile Include="Assets\TestTutorial\Converters\IntConverter.cs" />
+     <Compile Include="Assets\TestTutorial\Converters\IntToFloatConverter.cs" />
+     <Compile Include="Assets\TestTutorial\Converters\InverseBooleanValueConverter.cs" />
+     <Compile Include="Assets\TestTutorial\Converters\StringFormatValueConverter.cs" />
+     <Compile Include="Assets\TestTutorial\Converters\StringLengthValueConverter.cs" />
+     <Compile Include="Assets\TestTutorial\Converters\StringReverseValueConverter.cs" />
+     <Compile Include="Assets\TestTutorial\Messages\ButtonClickMessage.cs" />
+     <Compile Include="Assets\TestTutorial\Messages\TestChangedMessage.cs" />
+     <Compile Include="Assets\TestTutorial\Models\PropertyChangedExtendedEventArgs.cs" />
+     <Compile Include="Assets\TestTutorial\TestTutorialApp.cs" />
+     <Compile Include="Assets\TestTutorial\TestTutorialAppDelegate.cs" />
+     <Compile Include="Assets\TestTutorial\TestTutorialSetup.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\AlertViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\BaseViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\CellViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\CollectionViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\CompositeViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\DialogViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\GameObjectViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\HUDViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\MainMenuViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\ModalDialogViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\ModalDialogViewModel2.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\OptionViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\ViewModels\TipViewModel.cs" />
+     <Compile Include="Assets\TestTutorial\Views\AlertView.cs" />
+     <Compile Include="Assets\TestTutorial\Views\BaseViewControllers\BaseCollectionViewController.cs" />
+     <Compile Include="Assets\TestTutorial\Views\BaseViewControllers\BaseTabBarViewController.cs" />
+     <Compile Include="Assets\TestTutorial\Views\BaseViewControllers\BaseViewController.cs" />
+     <Compile Include="Assets\TestTutorial\Views\CellView.cs" />
+     <Compile Include="Assets\TestTutorial\Views\CollectionView.cs" />
+     <Compile Include="Assets\TestTutorial\Views\CompositeView.cs" />
+     <Compile Include="Assets\TestTutorial\Views\DialogView.cs" />
+     <Compile Include="Assets\TestTutorial\Views\GameObjectView.cs" />
+     <Compile Include="Assets\TestTutorial\Views\HUDView.cs" />
+     <Compile Include="Assets\TestTutorial\Views\MainMenuView.cs" />
+     <Compile Include="Assets\TestTutorial\Views\ModalDialogView.cs" />
+     <Compile Include="Assets\TestTutorial\Views\ModalDialogView2.cs" />
+     <Compile Include="Assets\TestTutorial\Views\OptionView.cs" />
+     <Compile Include="Assets\TestTutorial\Views\TipView.cs" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Depth.shader" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Masked Colored.shader" />
+     <None Include="Assets\External\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (AlphaClip).shader" />
+     <None Include="Assets\External\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (HardClip).shader" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored Overlay.shader" />
+     <None Include="Assets\obj\Debug\mvx-unity-ngui-test.csproj.FileListAbsolute.txt" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Additive Colored.shader" />
+     <None Include="Assets\External\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
+ <Reference Include="Cirrious.MvvmCross">
+ <HintPath>Assets\External\Cirrious.MvvmCross.dll</HintPath>
+ </Reference>
+ <Reference Include="NGUI">
+ <HintPath>Assets\External\NGUI\DLLs\NGUI.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>

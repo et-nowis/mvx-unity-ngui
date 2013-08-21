@@ -56,9 +56,9 @@ namespace Cirrious.MvvmCross.Unity.Views
                     string viewUrl = customAttribute.Url;
 
                     GameObject prefab = (GameObject)UnityEngine.Resources.Load(viewUrl);
-
+					
                     Camera uiCamera = NGUITools.FindCameraForLayer(prefab.layer);
-
+					
                     Vector3 newPosition;
                     if (prefab.layer == LayerMask.NameToLayer("UI"))
                     {
@@ -70,6 +70,8 @@ namespace Cirrious.MvvmCross.Unity.Views
                     }
 
                     GameObject go = GameObject.Instantiate(prefab, newPosition, Quaternion.identity) as GameObject;
+					
+					PreventCameraSwapOnUIAnchor(go);
 
                     view = go.GetComponent(typeof(IMvxUnityView)) as IMvxUnityView;
                 }
@@ -102,5 +104,15 @@ namespace Cirrious.MvvmCross.Unity.Views
             var view = CreateView(request);
             return view;
         }
+		
+		private void PreventCameraSwapOnUIAnchor(GameObject prefab)
+		{
+			// View prefab may be housed in a UIAnchor. If so, set NGUI UICamera to null to prevent it from being defaulted to the wrong camera.
+			var uiAnchor = prefab.GetComponent<UIAnchor>();
+			if (uiAnchor != null)
+			{
+				uiAnchor.uiCamera = null; 
+			}
+		}
     }
 }

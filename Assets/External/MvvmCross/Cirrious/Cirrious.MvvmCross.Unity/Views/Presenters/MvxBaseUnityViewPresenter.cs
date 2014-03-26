@@ -46,7 +46,6 @@ namespace Cirrious.MvvmCross.Unity.Views.Presenters
 
         public virtual void NativeModalViewControllerDisappearedOnItsOwn()
         {
-        }
-		
+        }	
     }
 }

@@ -21,11 +21,26 @@
 // THE SOFTWARE.
 //
 
+using UnityEngine;
+
 namespace Cirrious.CrossCore.Unity.Views
 {
-
     public class UICollectionViewController : UIViewController
     {
+        //public UICollectionView CollectionView { get; set; }
+
+        //public bool ClearSelectionOnViewWillAppear = true;
+		
+		protected override void Awake()
+        {
+			base.Awake();
+        }
+		
+		protected override void OnDestroy()
+		{
+			base.OnDestroy();
+		}
+		
     }
 
 }

@@ -1,7 +1,7 @@
 using Cirrious.MvvmCross.Unity.Views;
 using TestTutorial.ViewModels;
 
-[MvxUnityView("TestTutorial/Views/GameObjectView")]
+[MvxUnityView("TestTutorial_NGUI_3/Views/GameObjectView")]
 public class GameObjectView : BaseViewController
 {
     public new GameObjectViewModel ViewModel
@@ -13,21 +13,6 @@ public class GameObjectView : BaseViewController
     protected override void ViewDidLoad()
     {
         base.ViewDidLoad();
-
-        /*this.AddBindings(
-            new Dictionary<object, string>()
-                {
-                     { tipValueLabel, "text TipValue, Converter=StringFormat, ConverterParameter='{0:0.000}';" },
-                });
-		
-        this.AddBindings(
-            new Dictionary<object, string>()
-                {
-                   // { TipValueLabel, "{'Text':{'Path':'TipValue'}}" }
-                     { clickButton , "onClick ClickCommand" }
-                 });
-        */
-
     }
 
 }

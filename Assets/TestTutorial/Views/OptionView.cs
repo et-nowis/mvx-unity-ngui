@@ -3,7 +3,7 @@ using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Unity.Views;
 using TestTutorial.ViewModels;
 
-[MvxUnityView("TestTutorial/Views/OptionView")]
+[MvxUnityView("TestTutorial_NGUI_3/Views/OptionView")]
 public class OptionView : BaseViewController
 {
     public UIButton backButton;
@@ -17,12 +17,13 @@ public class OptionView : BaseViewController
     protected override void ViewDidLoad()
     {
         base.ViewDidLoad();
+		
+		var bindingSet = this.CreateBindingSet<OptionView, OptionViewModel>();
 
-        this.AddBindings(
-            new Dictionary<object, string>()
-                {
-					 { backButton , 	   "onClick BackCommand" }
-                 });
+ 			bindingSet.Bind(backButton).To(vm => vm.BackCommand);
+
+		bindingSet.Apply();
+		
 
     }
 }

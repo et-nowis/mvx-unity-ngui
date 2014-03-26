@@ -46,16 +46,16 @@ public abstract class BaseCollectionViewController
         MvxMessenger.Publish(message);
     }
 
-    public MvxSubscriptionToken Subscribe<TMessage>(Action<TMessage> action)
+    public MvxSubscriptionToken Subscribe<TMessage>(Action<TMessage> action, string tag = null)
         where TMessage : MvxMessage
     {
-        return MvxMessenger.Subscribe<TMessage>(action, MvxReference.Weak);
+        return MvxMessenger.Subscribe<TMessage>(action, MvxReference.Weak, tag);
     }
 
-    public MvxSubscriptionToken SubscribeOnMainThread<TMessage>(Action<TMessage> action)
+    public MvxSubscriptionToken SubscribeOnMainThread<TMessage>(Action<TMessage> action, string tag = null)
         where TMessage : MvxMessage
     {
-        return MvxMessenger.SubscribeOnMainThread<TMessage>(action, MvxReference.Weak);
+        return MvxMessenger.SubscribeOnMainThread<TMessage>(action, MvxReference.Weak, tag);
     }
 
     public void Unsubscribe<TMessage>(MvxSubscriptionToken id)

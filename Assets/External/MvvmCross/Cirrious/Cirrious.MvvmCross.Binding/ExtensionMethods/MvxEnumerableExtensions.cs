@@ -48,20 +48,63 @@ namespace Cirrious.MvvmCross.Binding.ExtensionMethods
             }
 
             var enumerator = items.GetEnumerator();
-            for (var i = 0;; i++)
+            for (var i = 0; ; i++)
             {
                 if (!enumerator.MoveNext())
                 {
                     return -1;
                 }
 
-                if (enumerator.Current == item)
+                if (enumerator.Current == null)
+                {
+                    if (item == null)
+                        return i;
+                }
+                // Note: do *not* use == here - see https://github.com/slodge/MvvmCross/issues/309
+                else if (enumerator.Current.Equals(item))
                 {
                     return i;
                 }
             }
         }
 
+#if UNITY_IPHONE
+        private static System.Type iListType = typeof(IList);
+        private static System.Reflection.MethodInfo getItemMethodInfo = typeof(IList).GetMethod("get_Item");
+        public static System.Object ElementAt(this IEnumerable items, int position)
+        {
+            if (items == null)
+                return null;
+
+            var interfaces = items.GetType().GetInterfaces();
+            bool isIList = false;
+            foreach (var x in interfaces)
+            {
+                if (x == iListType)
+                {
+                    isIList = true;
+                    break;
+                }
+            }
+            if (isIList)
+            {
+                try
+                {
+                    return getItemMethodInfo.Invoke(items, new System.Object[] { position });
+                }
+                catch (System.Exception)
+                {
+                }
+            }
+
+            var enumerator = items.GetEnumerator();
+            for (var i = 0; i <= position; i++)
+            {
+                enumerator.MoveNext();
+            }
+            return enumerator.Current;
+        }
+#else
         public static System.Object ElementAt(this IEnumerable items, int position)
         {
             if (items == null)
@@ -81,5 +124,7 @@ namespace Cirrious.MvvmCross.Binding.ExtensionMethods
 
             return enumerator.Current;
         }
+#endif
+
     }
 }

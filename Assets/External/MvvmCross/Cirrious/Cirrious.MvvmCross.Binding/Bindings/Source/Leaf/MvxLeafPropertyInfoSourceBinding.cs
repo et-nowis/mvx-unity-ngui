@@ -6,6 +6,9 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Cirrious.CrossCore.Converters;
 using Cirrious.CrossCore.Exceptions;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.ExtensionMethods;
@@ -14,8 +17,8 @@ namespace Cirrious.MvvmCross.Binding.Bindings.Source.Leaf
 {
     public abstract class MvxLeafPropertyInfoSourceBinding : MvxPropertyInfoSourceBinding
     {
-        protected MvxLeafPropertyInfoSourceBinding(object source, string propertyName)
-            : base(source, propertyName)
+        protected MvxLeafPropertyInfoSourceBinding(object source, PropertyInfo propertyInfo)
+            : base(source, propertyInfo)
         {
         }
 
@@ -26,27 +29,32 @@ namespace Cirrious.MvvmCross.Binding.Bindings.Source.Leaf
 
         protected override void OnBoundPropertyChanged()
         {
-            FireChanged(new MvxSourcePropertyBindingEventArgs(this));
+            FireChanged();
         }
 
-        public override bool TryGetValue(out object value)
+        public override object GetValue()
         {
             if (PropertyInfo == null)
             {
-                value = null;
-                return false;
+                return MvxBindingConstant.UnsetValue;
             }
 
             if (!PropertyInfo.CanRead)
             {
-                MvxBindingTrace.Trace(MvxTraceLevel.Error, "SetValue ignored in binding - target property is writeonly");
-                value = null;
-                return false;
+                MvxBindingTrace.Trace(MvxTraceLevel.Error, "GetValue ignored in binding - target property is writeonly");
+                return MvxBindingConstant.UnsetValue;
             }
 
-            value = PropertyInfo.GetValue(Source, PropertyIndexParameters());
-
-            return true;
+            try
+            {
+                return PropertyInfo.GetValue(Source, PropertyIndexParameters());
+            }
+            catch (TargetInvocationException)
+            {
+                // for dictionary lookups we quite often expect this during binding
+                // for list-based lookups we quite often expect this during binding
+                return MvxBindingConstant.UnsetValue;
+            }
         }
 
         protected abstract object[] PropertyIndexParameters();
@@ -70,6 +78,11 @@ namespace Cirrious.MvvmCross.Binding.Bindings.Source.Leaf
             {
                 var propertyType = PropertyInfo.PropertyType;
                 var safeValue = propertyType.MakeSafeValue(value);
+
+                // if safeValue matches the existing value, then don't call set
+                if (EqualsCurrentValue(safeValue))
+                    return;
+
                 PropertyInfo.SetValue(Source, safeValue, PropertyIndexParameters());
             }
             catch (Exception exception)

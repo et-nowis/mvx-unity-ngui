@@ -1,13 +1,13 @@
 namespace TestTutorial.Converters
 {
-	public class Converters
+	public static class Converters
     {
-        public readonly StringLengthValueConverter StringLength = new StringLengthValueConverter(); //Converter=StringLength
-        public readonly StringReverseValueConverter StringReverse = new StringReverseValueConverter();  //Converter=StringReverse
-        public readonly FloatConverter Float = new FloatConverter();  //Converter=Float
-        public readonly IntConverter Int = new IntConverter(); //Converter=Int
-        public readonly IntToFloatConverter IntToFloat = new IntToFloatConverter(); //Converter=IntToFloat
-		public readonly StringFormatValueConverter StringFormat = new StringFormatValueConverter(); //Converter=StringFormat
-		public readonly InverseBooleanValueConverter InverseBoolean = new InverseBooleanValueConverter(); //Converter=InverseBoolean
+        public static readonly StringLengthValueConverter StringLength = new StringLengthValueConverter(); //Converter=StringLength
+        public static readonly StringReverseValueConverter StringReverse = new StringReverseValueConverter();  //Converter=StringReverse
+        public static readonly FloatConverter Float = new FloatConverter();  //Converter=Float
+        public static readonly IntConverter Int = new IntConverter(); //Converter=Int
+        public static readonly IntToFloatConverter IntToFloat = new IntToFloatConverter(); //Converter=IntToFloat
+		public static readonly StringFormatValueConverter StringFormat = new StringFormatValueConverter(); //Converter=StringFormat
+		public static readonly InverseBooleanValueConverter InverseBoolean = new InverseBooleanValueConverter(); //Converter=InverseBoolean
     }
 }

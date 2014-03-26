@@ -23,8 +23,8 @@
 
 using System;
 using Cirrious.CrossCore;
-using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Unity.Platform;
+using Cirrious.CrossCore.IoC;
 
 namespace Cirrious.MvvmCross.Unity.Views
 {

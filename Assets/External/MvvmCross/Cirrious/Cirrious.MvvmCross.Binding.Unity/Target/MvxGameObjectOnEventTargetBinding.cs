@@ -25,6 +25,8 @@ using System;
 using System.Windows.Input;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Bindings.Target;
+using Cirrious.MvvmCross.Plugins.Sound;
+using Cirrious.CrossCore;
 using UnityEngine;
 
 namespace Cirrious.MvvmCross.Binding.Unity.Target
@@ -58,8 +60,11 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
 					case "onDrag":
 						_eventTarget.onDrag += this.OnDrag;
 						break;
-					case "OnDrop":
+					case "onDrop":
 						_eventTarget.onDrop += this.OnDrop;
+						break;
+					case "onSelect":
+						_eventTarget.onSelect += this.OnSelect;
 						break;
                 }
             }
@@ -69,6 +74,13 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
         {
             if (Target != null && _currentCommand != null)
             {
+				IMvxSound sound;
+			
+				if ( Mvx.TryResolve<IMvxSound>(out sound) )
+				{
+					sound.Play("ButtonClick");
+				}
+				
                 _currentCommand.Execute(null);
             }
         }
@@ -94,6 +106,14 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
             if (Target != null && _currentCommand != null)
             {
                 _currentCommand.Execute(draggedObject);
+            }
+        }
+		
+		public void OnSelect(GameObject go, bool selected)
+        {
+            if (Target != null && _currentCommand != null)
+            {
+                _currentCommand.Execute(selected);
             }
         }
 
@@ -130,8 +150,11 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
 						case "onDrag":
                             _eventTarget.onDrag -= this.OnDrag;
                             break;
-						case "OnDrop":
+						case "onDrop":
                             _eventTarget.onDrop -= this.OnDrop;
+                            break;
+						case "onSelect":
+                            _eventTarget.onSelect -= this.OnSelect;
                             break;
                     }
                 }

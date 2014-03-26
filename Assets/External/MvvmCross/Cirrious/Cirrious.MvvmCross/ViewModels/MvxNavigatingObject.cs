@@ -25,12 +25,7 @@ namespace Cirrious.MvvmCross.ViewModels
         {
             return ChangePresentation(new MvxClosePresentationHint(viewModel));
         }
-		
-		protected bool ClearStack()
-        {
-            return ChangePresentation(new MvxClearStackPresentationHint());
-        }
-		
+
         protected bool ChangePresentation(MvxPresentationHint hint)
         {
             MvxTrace.Trace("Requesting presentation change");

@@ -16,17 +16,18 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
     {
         public static readonly PluginLoader Instance = new PluginLoader();
 
-        private bool _loaded;
+        //private bool _loaded;
 
         public void EnsureLoaded()
         {
-            if (_loaded)
+            if (Mvx.CanResolve<IMvxMessenger>())
+            //if (_loaded)
             {
                 return;
             }
 
             Mvx.RegisterSingleton<IMvxMessenger>(new MvxMessengerHub());
-            _loaded = true;
+            //_loaded = true;
         }
     }
 }

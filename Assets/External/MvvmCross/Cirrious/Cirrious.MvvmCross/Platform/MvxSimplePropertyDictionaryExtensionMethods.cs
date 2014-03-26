@@ -47,7 +47,7 @@ namespace Cirrious.MvvmCross.Platform
         public static T Read<T>(this IDictionary<string, string> data)
             where T : new()
         {
-            return (T) data.Read(typeof (T));
+            return (T)data.Read(typeof(T));
         }
 
         public static object Read(this IDictionary<string, string> data, Type type)
@@ -77,22 +77,33 @@ namespace Cirrious.MvvmCross.Platform
             var argumentList = new List<object>();
             foreach (var requiredParameter in requiredParameters)
             {
-                string parameterValue;
-                if (data == null ||
-                    !data.TryGetValue(requiredParameter.Name, out parameterValue))
-                {
-                    MvxTrace.Trace(
-                        "Missing parameter for call to {0} - missing parameter {1} - asssuming null - this may fail for value types!",
-                        debugText,
-                        requiredParameter.Name);
-                    parameterValue = null;
-                }
-
-                var value = MvxSingletonCache.Instance.Parser.ReadValue(parameterValue, requiredParameter.ParameterType,
-                                                                        requiredParameter.Name);
-                argumentList.Add(value);
+                var argumentValue = data.GetArgumentValue(requiredParameter, debugText);
+                argumentList.Add(argumentValue);
             }
             return argumentList;
+        }
+
+        public static object GetArgumentValue(this IDictionary<string, string> data, ParameterInfo requiredParameter, string debugText)
+        {
+            string parameterValue;
+            if (data == null ||
+                !data.TryGetValue(requiredParameter.Name, out parameterValue))
+            {
+                if (requiredParameter.IsOptional)
+                {
+                    return Type.Missing;
+                }
+
+                MvxTrace.Trace(
+                    "Missing parameter for call to {0} - missing parameter {1} - asssuming null - this may fail for value types!",
+                    debugText,
+                    requiredParameter.Name);
+                parameterValue = null;
+            }
+
+            var value = MvxSingletonCache.Instance.Parser.ReadValue(parameterValue, requiredParameter.ParameterType,
+                                                                    requiredParameter.Name);
+            return value;
         }
 
         public static IDictionary<string, string> ToSimplePropertyDictionary(this object input)
@@ -101,7 +112,7 @@ namespace Cirrious.MvvmCross.Platform
                 return new Dictionary<string, string>();
 
             if (input is IDictionary<string, string>)
-                return (IDictionary<string, string>) input;
+                return (IDictionary<string, string>)input;
 
             var propertyInfos = from property in input.GetType()
                                                       .GetProperties(BindingFlags.Instance | BindingFlags.Public |
@@ -136,7 +147,7 @@ namespace Cirrious.MvvmCross.Platform
         {
             try
             {
-                var value = propertyInfo.GetValue(input, new object[] {});
+                var value = propertyInfo.GetValue(input, new object[] { });
                 if (value == null)
                     return null;
 

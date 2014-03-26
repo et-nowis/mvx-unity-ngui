@@ -27,6 +27,7 @@ using UnityEngine;
 
 namespace Cirrious.MvvmCross.Unity.Platform
 {
+    [Obsolete("Derive directly from MeGirl.ApplicationDelegate instead", true)]
     public class MvxApplicationDelegate : MonoBehaviour
     {
         public UICamera uiCamera;

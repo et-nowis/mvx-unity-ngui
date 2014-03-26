@@ -40,10 +40,24 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
             }
             else
             {
+#if NGUI_3
+                EventDelegate.Add(slider.onChange, OnValueChanged);
+#else
                 slider.onValueChange += OnValueChanged;
+#endif
+
             }
         }
-
+#if NGUI_3
+        private void OnValueChanged()
+        {
+            var slider = View;
+            if (slider != null)
+            {
+                FireValueChanged(UISlider.current.value);
+            }
+        }
+#else		
         private void OnValueChanged(float val)
         {
             var slider = View;
@@ -51,8 +65,8 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
             {
                 FireValueChanged(val);
             }
-        }
-
+        }		
+#endif
         public override MvxBindingMode DefaultMode
         {
             get { return MvxBindingMode.TwoWay; }
@@ -65,7 +79,11 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
                 var slider = View;
                 if (slider != null)
                 {
-                    slider.onValueChange -= OnValueChanged;
+#if NGUI_3
+                    EventDelegate.Remove(slider.onChange, OnValueChanged);
+#else
+					slider.onValueChange -= OnValueChanged;
+#endif
                 }
             }
             base.Dispose(isDisposing);

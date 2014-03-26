@@ -26,6 +26,11 @@ using Cirrious.CrossCore.Plugins;
 
 namespace Cirrious.MvvmCross.Plugins.Sqlite.Unity
 {
+    public interface ISQLiteConnectionFactory
+    {
+        SQLite.ISQLiteConnection Create(string address);
+    }
+
     public class Plugin
         : IMvxPlugin
     {

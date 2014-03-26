@@ -1,5 +1,4 @@
 using System.Windows.Input;
-using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.Messages;
 
@@ -32,20 +31,22 @@ namespace TestTutorial.ViewModels
         }
 
 
-        public override ICommand CloseCommand
-        {
-            get
-            {
-                return new MvxCommand(() =>
-                {
-                    Mvx.Trace("ClickCommand");
-                    this.Close(this);
-                    ButtonClickMessage message = new ButtonClickMessage(this);
-                    message.ButtonIndex = 0;
-                    Publish(message);
-                });
-            }
-        }
+//        public override ICommand CloseCommand
+//        {
+//            get
+//            {
+//                return new MvxCommand(() =>
+//                {
+//                    UnityEngine.Debug.Log("ClickCommand");
+//                    this.Close(this);
+//                    ButtonClickMessage message = new ButtonClickMessage(this);
+//                    message.ButtonIndex = 0;
+//                    Publish(message);
+//
+//
+//                });
+//            }
+//        }
 
         public ICommand OkCommand
         {
@@ -53,11 +54,14 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    Mvx.Trace("OkCommand");
+                    UnityEngine.Debug.Log("OkCommand");
+                    //this.Close();
                     ButtonClickMessage message = new ButtonClickMessage(this);
                     message.ButtonIndex = 1;
                     Publish(message);
+
                     ShowViewModel<ModalDialogViewModel2>();
+
                 });
             }
         }
@@ -68,13 +72,17 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    Mvx.Trace("CancelCommand");
+                    UnityEngine.Debug.Log("CancelCommand");
                     this.Close(this);
                     ButtonClickMessage message = new ButtonClickMessage(this);
                     message.ButtonIndex = 2;
                     Publish(message);
+
+
                 });
             }
         }
+
+
     }
 }

@@ -35,7 +35,8 @@ namespace Cirrious.MvvmCross.Unity.Views
     {
         private readonly IMvxUnityViewPresenter _presenter;
 
-        public MvxUnityViewDispatcher(IMvxUnityViewPresenter presenter)
+        public MvxUnityViewDispatcher(Action<Action> dispatcher, IMvxUnityViewPresenter presenter)
+            : base(dispatcher)
         {
             _presenter = presenter;
         }

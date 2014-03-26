@@ -1,6 +1,5 @@
 using System;
 using System.Windows.Input;
-using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 using TestTutorial.Messages;
 
@@ -49,15 +48,44 @@ namespace TestTutorial.ViewModels
             get { return _testSpriteName; }
             set { _testSpriteName = value; RaisePropertyChanged(() => TestSpriteName); }
         }
+		
+		private string _tipInput;
+        public string TipInput
+        {
+            get { return _tipInput; }
+            set { _tipInput = value; RaisePropertyChanged(() => TipInput); }
+        }
+
+
+        //private readonly MvxSubscriptionToken _mvxSubscription;
 
         public TipViewModel()
         {
+            // SubTotal = 60.0f;
+            // TipPercent = 12;
+            // Recalculate();
+
+            //_mvxSubscription = Subscribe<TestChangedMessage>(OnTestChangedMessage);
+			
+			TipValue = 0.5f;
+
+        }
+
+        //public void Init( float First, string Second, string Answer )
+        //{
+        //	UnityEngine.Debug.Log( First );
+        //}
+
+        private void OnTestChangedMessage(TestChangedMessage message)
+        {
+            UnityEngine.Debug.Log("OnTestChangedMessage");
         }
 
         private void Recalculate()
         {
             TipValue = ((int)Math.Round(SubTotal * TipPercent)) / 100.0f;
             Total = TipValue + SubTotal;
+
         }
 
         public ICommand ClickCommand
@@ -66,8 +94,11 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    Mvx.Trace("ClickCommand");
+                    UnityEngine.Debug.Log("ClickCommand");
+                    //Publish(new TestChangedMessage(this));
+
                     ShowViewModel<TipViewModel>();
+
                 });
             }
         }
@@ -78,9 +109,13 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    Mvx.Trace("PressCommand");
+                    UnityEngine.Debug.Log("PressCommand");
+
                 });
             }
         }
+
+
     }
+
 }

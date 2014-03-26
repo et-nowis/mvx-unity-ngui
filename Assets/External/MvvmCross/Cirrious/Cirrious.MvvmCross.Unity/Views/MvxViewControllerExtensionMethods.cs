@@ -34,10 +34,30 @@ namespace Cirrious.MvvmCross.Unity.Views
         public static void OnViewCreate(this IMvxUnityView unityView)
         {
             //var view = touchView as IMvxView<TViewModel>;
-            unityView.OnViewCreate(() => { return unityView.LoadViewModel(); });
+			
+			//var savedState = GetSavedStateFromBundle(bundle);
+			
+//			var savedState = new MvxBundle();
+			
+            unityView.OnViewCreate(() => { return unityView.LoadViewModel(null); });
         }
+		
+//		private static IMvxBundle GetSavedStateFromBundle(Bundle bundle)
+//        {
+//            if (bundle == null)
+//                return null;
+//
+//            IMvxSavedStateConverter converter; 
+//            if (!Mvx.TryResolve<IMvxSavedStateConverter>(out converter))
+//            {
+//                MvxTrace.Trace("No saved state converter available - this is OK if seen during start");
+//                return null;
+//            }
+//            var savedState = converter.Read(bundle);
+//            return savedState;
+//        }
 
-        private static IMvxViewModel LoadViewModel(this IMvxUnityView unityView)
+        private static IMvxViewModel LoadViewModel(this IMvxUnityView unityView, IMvxBundle savedState = null)
         {
 #warning NullViewModel needed?
             // how to do N
@@ -58,7 +78,8 @@ namespace Cirrious.MvvmCross.Unity.Views
             }
 
             var loader = Mvx.Resolve<IMvxViewModelLoader>();
-            var viewModel = loader.LoadViewModel(unityView.Request, null /* no saved state on iOS currently */);
+			
+            var viewModel = loader.LoadViewModel(unityView.Request, savedState);
             if (viewModel == null)
                 throw new MvxException("ViewModel not loaded for " + unityView.Request.ViewModelType);
             return viewModel;

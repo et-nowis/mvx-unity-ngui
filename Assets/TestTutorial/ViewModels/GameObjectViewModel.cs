@@ -1,5 +1,4 @@
 using System.Windows.Input;
-using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 
 namespace TestTutorial.ViewModels
@@ -23,7 +22,8 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    Mvx.Trace("ClickCommand");
+                    UnityEngine.Debug.Log("ClickCommand");
+
                 });
             }
         }
@@ -34,9 +34,13 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    Mvx.Trace("PressCommand");
+                    UnityEngine.Debug.Log("PressCommand");
+
                 });
             }
         }
+
+
     }
+
 }

@@ -24,7 +24,6 @@
 using Cirrious.CrossCore.Exceptions;
 using Cirrious.CrossCore.Platform;
 using Cirrious.CrossCore.Unity.Views;
-using Cirrious.MvvmCross.Unity.Platform;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
 using UnityEngine;
@@ -34,18 +33,22 @@ namespace Cirrious.MvvmCross.Unity.Views.Presenters
     public class MvxUnityViewPresenter
         : MvxBaseUnityViewPresenter
     {
-        private readonly MvxApplicationDelegate _applicationDelegate;
+        private readonly MonoBehaviour _applicationDelegate;
+        private readonly Camera _uiCamera;
 
-        private UINavigationController _masterNavigationController;
-
-        protected virtual UINavigationController MasterNavigationController
+        public virtual UINavigationController MasterNavigationController
         {
-            get { return _masterNavigationController; }
+            get; protected set;
         }
 
-        public MvxUnityViewPresenter(MvxApplicationDelegate applicationDelegate)
+        public MvxUnityViewPresenter(MonoBehaviour applicationDelegate)
         {
             _applicationDelegate = applicationDelegate;
+            _uiCamera = NGUITools.FindCameraForLayer(LayerMask.NameToLayer("UI"));
+            if (_uiCamera == null)
+            {
+                MvxTrace.Error("Cannot find Camera for UI layer");
+            }
         }
 
         public override void Show(MvxViewModelRequest request)
@@ -53,25 +56,6 @@ namespace Cirrious.MvvmCross.Unity.Views.Presenters
             var view = this.CreateViewControllerFor(request);
 
             Show(view);
-        }
-
-        public virtual void Show(IMvxUnityView view)
-        {
-            var viewController = view as UIViewController;
-            if (viewController == null)
-                throw new MvxException("Passed in IMvxUnityView is not a UIViewController");
-
-            int layerMask = 1 << viewController.gameObject.layer;
-            if ((_applicationDelegate.uiCamera.cachedCamera.cullingMask & layerMask) == 0)
-            {
-                // ignore if not visible by ui camera
-                return;
-            }
-
-            if (_masterNavigationController == null)
-                ShowFirstView(viewController);
-            else
-                _masterNavigationController.PushViewController(viewController, true);
         }
 
         public override void ChangePresentation(MvxPresentationHint hint)
@@ -83,23 +67,36 @@ namespace Cirrious.MvvmCross.Unity.Views.Presenters
 
             }
 			
-			if (hint is MvxClearStackPresentationHint)
-			{
-				ClearStack();
-				return;
-			}
-
             base.ChangePresentation(hint);
         }
-		
-		public void ClearStack()
-		{
-			this._masterNavigationController.PopToRootViewController(false);
-		}
+
+        public virtual void Show(IMvxUnityView view)
+        {
+            var viewController = view as UIViewController;
+            if (viewController == null)
+                throw new MvxException("Passed in IMvxUnityView is not a UIViewController");
+
+            int layerMask = 1 << viewController.gameObject.layer;
+            if ((_uiCamera.cullingMask & layerMask) == 0)
+            {
+                // ignore if not visible by ui camera
+                return;
+            }
+
+            if (MasterNavigationController == null)
+                ShowFirstView(viewController);
+            else
+                MasterNavigationController.PushViewController(viewController, true /*animated*/);
+        }
+
+		public virtual void CloseModalViewController()
+        {
+            MasterNavigationController.PopViewControllerAnimated(true);
+        }		   
 
         public virtual void Close(IMvxViewModel toClose)
         {
-            var topViewController = _masterNavigationController.TopViewController;
+            var topViewController = MasterNavigationController.TopViewController;
 
             if (topViewController == null)
             {
@@ -122,12 +119,12 @@ namespace Cirrious.MvvmCross.Unity.Views.Presenters
                 return;
             }
 
-            _masterNavigationController.PopViewControllerAnimated(true);
+            MasterNavigationController.PopViewControllerAnimated(true);
         }
 
         protected virtual void ShowFirstView(UIViewController viewController)
         {
-            _masterNavigationController = CreateNavigationController(viewController);
+            MasterNavigationController = CreateNavigationController(viewController);
 
             OnMasterNavigationControllerCreated();
         }
@@ -138,7 +135,7 @@ namespace Cirrious.MvvmCross.Unity.Views.Presenters
 
         protected virtual UINavigationController CreateNavigationController(UIViewController viewController)
         {
-            GameObject go = NGUITools.AddChild(_applicationDelegate.uiCamera.gameObject);
+            GameObject go = NGUITools.AddChild(_uiCamera.gameObject);
             go.name = "UINavigationController";
             UINavigationController _uiNavigationController = go.AddComponent<UINavigationController>();
             _uiNavigationController.PushViewController(viewController, false);
@@ -147,7 +144,7 @@ namespace Cirrious.MvvmCross.Unity.Views.Presenters
 
         protected virtual UIViewController CurrentTopViewController
         {
-            get { return _masterNavigationController.TopViewController; }
+            get { return MasterNavigationController.TopViewController; }
         }
     }
 }

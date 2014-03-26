@@ -41,7 +41,7 @@ namespace Cirrious.CrossCore.Unity.Views
             if (excludeLayers == null || !excludeLayers.Contains(transform.gameObject.layer))
                 transform.gameObject.layer = layer;
 
-            for (int i = 0; i < transform.GetChildCount(); ++i)
+            for (int i = 0; i < transform.childCount; ++i)
             {
                 Transform child = transform.GetChild(i);
 

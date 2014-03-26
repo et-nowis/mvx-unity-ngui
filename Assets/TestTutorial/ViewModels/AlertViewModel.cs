@@ -7,6 +7,12 @@ namespace TestTutorial.ViewModels
 {
     public class AlertViewModel : BaseViewModel
     {
+        private InteractionRequest<ButtonClickMessage> _buttonClicklInteractionRequest;
+        public IInteractionRequest ButtonClickInteractionRequest
+        {
+            get { return _buttonClicklInteractionRequest ?? (_buttonClicklInteractionRequest = new InteractionRequest<ButtonClickMessage>()); }
+        }
+
         private Collection<string> _buttonTexts = new Collection<string>();
         public Collection<string> ButtonTexts
         {
@@ -140,11 +146,12 @@ namespace TestTutorial.ViewModels
             return ButtonTexts[i];
         }
 
+        private ICommand _buttonClickCommand;
         public ICommand ButtonClickCommand
         {
             get
             {
-                return new MvxCommand<int>(OnButtonClick);
+                return _buttonClickCommand ?? (_buttonClickCommand = new MvxCommand<int>(OnButtonClick));
             }
         }
 
@@ -152,19 +159,31 @@ namespace TestTutorial.ViewModels
         {
             this.Close(this);
 
-            Publish(new ButtonClickMessage(this)
-            {
-                ButtonIndex = buttonIndex,
-                ButtonAction = ButtonTexts[buttonIndex]
-            });
+            //            Publish(new ButtonClickMessage(this)
+            //            {
+            //                ButtonIndex = buttonIndex,
+            //                ButtonAction = ButtonTexts[buttonIndex]
+            //            });
+
+            RaiseRequest(_buttonClicklInteractionRequest
+                , new ButtonClickMessage(this)
+                {
+                    ButtonIndex = buttonIndex,
+                    ButtonAction = ButtonTexts[buttonIndex]
+                } 
+                , (ButtonClickMessage c) =>
+                {
+                    UnityEngine.Debug.Log(this + " OnButtonClick CallBack " + c.ButtonAction);
+                }
+            );
         }
 
-
+        private ICommand _confirmButtonClickCommand;
         public ICommand ConfirmButtonClickCommand
         {
             get
             {
-                return new MvxCommand(OnConfirmButtonClick);
+                return _confirmButtonClickCommand ?? (_confirmButtonClickCommand = new MvxCommand(OnConfirmButtonClick));
             }
         }
 
@@ -172,27 +191,49 @@ namespace TestTutorial.ViewModels
         {
             this.Close(this);
 
-            Publish(new ButtonClickMessage(this)
-            {
-                ButtonIndex = 0,
-                ButtonAction = "Confirm",
-            });
+            //            Publish(new ButtonClickMessage(this)
+            //            {
+            //                ButtonIndex = 0,
+            //                ButtonAction = "Confirm",
+            //            });
+
+            RaiseRequest(_buttonClicklInteractionRequest
+                , new ButtonClickMessage(this)
+                {
+                    ButtonIndex = 0,
+                    ButtonAction = "Confirm"
+                }
+                , (ButtonClickMessage c) =>
+                {
+                    UnityEngine.Debug.Log(this + " OnButtonClick CallBack " + c.ButtonAction);
+                }
+            );
         }
 
-        public override ICommand CloseCommand
+        protected override bool DoClose()
         {
-            get
-            {
-                return new MvxCommand(() =>
+            base.DoClose();
+
+            //            Publish(_buttonClickMessage ?? new ButtonClickMessage(this)
+            //            {
+            //                ButtonIndex = 0,
+            //                ButtonAction = "Close"
+            //            });
+
+            RaiseRequest(_buttonClicklInteractionRequest
+                , new ButtonClickMessage(this)
                 {
-                    this.Close(this);
-                    Publish(new ButtonClickMessage(this)
-                    {
-                        ButtonIndex = 0,
-                        ButtonAction = "Close",
-                    });
-                });
-            }
+                    ButtonIndex = 0,
+                    ButtonAction = "Close"
+                }
+                , (ButtonClickMessage c) =>
+                {
+                    UnityEngine.Debug.Log(this + " OnButtonClick CallBack " + c.ButtonAction);
+                }
+            );
+
+            return true;
         }
+     
     }
 }

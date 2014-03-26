@@ -41,7 +41,7 @@ namespace Cirrious.MvvmCross.Platform
                 {
                     enumValue = Enum.Parse(t, input, true);
                 }
-                catch (Exception exception)
+                catch (Exception)
                 {
                     MvxTrace.Error("Failed to parse enum parameter {0} from string {1}",
                                    fieldOrParameterName,
@@ -187,20 +187,22 @@ namespace Cirrious.MvvmCross.Platform
             }
         }
 
+        // UNITY3D does not support Guid.TryParse
+        // See https://github.com/slodge/MvvmCross/issues/215
         public class GuidParser : ValueParser
         {
             protected override bool TryParse(string input, out object result)
             {
-                Guid value = new Guid();
-                bool toReturn = false;
                 try
                 {
-                    value = new Guid(input);
-                    toReturn = true;
+                    result = new Guid(input);
+                    return true;
                 }
-                catch (Exception) { }
-                result = value;
-                return toReturn;
+                catch (Exception)
+                {
+                    result = null;
+                    return false;
+                }
             }
         }
 

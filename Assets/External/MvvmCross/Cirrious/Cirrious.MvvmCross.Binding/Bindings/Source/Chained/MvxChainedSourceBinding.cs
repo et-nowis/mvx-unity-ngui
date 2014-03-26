@@ -7,6 +7,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using Cirrious.CrossCore.Converters;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Bindings.Source.Construction;
 using Cirrious.MvvmCross.Binding.Parse.PropertyPath.PropertyTokens;
@@ -21,9 +23,9 @@ namespace Cirrious.MvvmCross.Binding.Bindings.Source.Chained
 
         protected MvxChainedSourceBinding(
             object source,
-            string propertyName,
+            PropertyInfo propertyInfo,
             IList<MvxPropertyToken> childTokens)
-            : base(source, propertyName)
+            : base(source, propertyInfo)
         {
             _childTokens = childTokens;
         }
@@ -87,26 +89,25 @@ namespace Cirrious.MvvmCross.Binding.Bindings.Source.Chained
 
         protected abstract object[] PropertyIndexParameters();
 
-        private void ChildSourceBindingChanged(object sender, MvxSourcePropertyBindingEventArgs e)
+        private void ChildSourceBindingChanged(object sender, EventArgs e)
         {
-            FireChanged(e);
+            FireChanged();
         }
 
         protected override void OnBoundPropertyChanged()
         {
             UpdateChildBinding();
-            FireChanged(new MvxSourcePropertyBindingEventArgs(this));
+            FireChanged();
         }
 
-        public override bool TryGetValue(out object value)
+        public override object GetValue()
         {
             if (_currentChildBinding == null)
             {
-                value = null;
-                return false;
+                return MvxBindingConstant.UnsetValue;
             }
 
-            return _currentChildBinding.TryGetValue(out value);
+            return _currentChildBinding.GetValue();
         }
 
         public override void SetValue(object value)

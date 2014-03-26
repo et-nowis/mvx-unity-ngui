@@ -3,7 +3,7 @@ using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Unity.Views;
 using TestTutorial.ViewModels;
 
-[MvxUnityView("TestTutorial/Views/ModalDialogView2")]
+[MvxUnityView("TestTutorial_NGUI_3/Views/ModalDialogView2")]
 public class ModalDialogView2 : BaseViewController, IMvxModalUnityView
 {
     public UILabel dialogLabel;
@@ -20,22 +20,14 @@ public class ModalDialogView2 : BaseViewController, IMvxModalUnityView
     protected override void ViewDidLoad()
     {
         base.ViewDidLoad();
+		
+		var bindingSet = this.CreateBindingSet<ModalDialogView2, ModalDialogViewModel2>();
 
-        this.AddBindings(
-            new Dictionary<object, string>()
-                {
-                     { dialogLabel, "text Message" }
-                });
+ 			bindingSet.Bind(closeButton).To(vm => vm.CloseCommand);
+			bindingSet.Bind(okButton).To(vm => vm.OkCommand);
+			bindingSet.Bind(cancelButton).To(vm => vm.CancelCommand);
 
-
-        this.AddBindings(
-            new Dictionary<object, string>()
-                {
-                    // { TipValueLabel, "{'Text':{'Path':'TipValue'}}" }
-					 { closeButton, "onClick CloseCommand" },
-					 { okButton, "onClick OkCommand" },
-					 { cancelButton, "onClick CancelCommand" }
-                 });
+		bindingSet.Apply();
 
         //this.ViewModel.DialogText = "Hello World (Modal)";
     }

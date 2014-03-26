@@ -52,7 +52,5 @@ namespace Cirrious.MvvmCross.Unity.Views
             UnityView.OnViewDestroy();
             base.HandleDisposeCalled(sender, e);
         }
-
     }
-
 }

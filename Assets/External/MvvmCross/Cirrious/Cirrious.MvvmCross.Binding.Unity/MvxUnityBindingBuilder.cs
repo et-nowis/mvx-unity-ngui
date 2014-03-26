@@ -22,6 +22,7 @@
 //
 
 using System;
+using System.Windows.Interactivity;
 using Cirrious.CrossCore.Converters;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.BindingContext;
@@ -52,13 +53,34 @@ namespace Cirrious.MvvmCross.Binding.Unity
         {
             base.FillTargetFactories(registry);
 
+#if NGUI_3
+            registry.RegisterPropertyInfoBindingFactory(typeof(MvxUIProgressBarValueTargetBinding), typeof(UIProgressBar), "value");
+            registry.RegisterPropertyInfoBindingFactory(typeof(MvxUISliderSliderValueTargetBinding), typeof(UISlider), "value");
+            registry.RegisterPropertyInfoBindingFactory(typeof(MvxUIToggleIsCheckedTargetBinding), typeof(UIToggle), "isChecked");
+#else
             registry.RegisterPropertyInfoBindingFactory(typeof(MvxUISliderSliderValueTargetBinding), typeof(UISlider), "sliderValue");
             registry.RegisterPropertyInfoBindingFactory(typeof(MvxUICheckboxIsCheckedTargetBinding), typeof(UICheckbox), "isChecked");
+#endif
+
+            registry.RegisterPropertyInfoBindingFactory(typeof(MvxUIInputTextTargetBinding), typeof(UIInput), "text");
+
             registry.RegisterCustomBindingFactory<GameObject>("active", (gameObject) => new MvxGameObjectActiveTargetBinding(gameObject));
+
             registry.RegisterCustomBindingFactory<GameObject>("onClick", (button) => new MvxGameObjectOnEventTargetBinding(button, "onClick"));
             registry.RegisterCustomBindingFactory<GameObject>("onPress", (button) => new MvxGameObjectOnEventTargetBinding(button, "onPress"));
+            registry.RegisterCustomBindingFactory<GameObject>("onSelect", (button) => new MvxGameObjectOnEventTargetBinding(button, "onSelect"));
+            registry.RegisterCustomBindingFactory<GameObject>("onDrag", (button) => new MvxGameObjectOnEventTargetBinding(button, "onDrag"));
+            registry.RegisterCustomBindingFactory<GameObject>("onDrop", (button) => new MvxGameObjectOnEventTargetBinding(button, "onDrop"));
+            registry.RegisterCustomBindingFactory<GameObject>("onSubmit", (gameObject) => new MvxGameObjectOnEventTargetBinding(gameObject, "onSubmit"));
+
             registry.RegisterCustomBindingFactory<Component>("onClick", (button) => new MvxComponentOnEventTargetBinding(button, "onClick"));
             registry.RegisterCustomBindingFactory<Component>("onPress", (button) => new MvxComponentOnEventTargetBinding(button, "onPress"));
+            registry.RegisterCustomBindingFactory<Component>("onSelect", (button) => new MvxComponentOnEventTargetBinding(button, "onSelect"));
+            registry.RegisterCustomBindingFactory<Component>("onDrag", (button) => new MvxComponentOnEventTargetBinding(button, "onDrag"));
+            registry.RegisterCustomBindingFactory<Component>("onDrop", (button) => new MvxComponentOnEventTargetBinding(button, "onDrop"));
+            registry.RegisterCustomBindingFactory<Component>("onSubmit", (component) => new MvxComponentOnEventTargetBinding(component, "onSubmit"));
+
+			registry.RegisterCustomBindingFactory<InteractionRequestTrigger>("SourceObject", (trigger) => new MvxTriggerInteractionRequestTargetBinding(trigger));
 
             if (_fillRegistryAction != null)
                 _fillRegistryAction(registry);
@@ -79,11 +101,22 @@ namespace Cirrious.MvvmCross.Binding.Unity
             registry.AddOrOverwrite(typeof(MvxCollectionViewSource), "ItemsSource");
             registry.AddOrOverwrite(typeof(UISprite), "spriteName");
             registry.AddOrOverwrite(typeof(UILabel), "text");
+            registry.AddOrOverwrite(typeof(UIInput), "text");
+            registry.AddOrOverwrite(typeof(GameObject), "active");
+
+#if NGUI_3
+            registry.AddOrOverwrite(typeof(UIProgressBar), "value");
+            registry.AddOrOverwrite(typeof(UISlider), "value");
+            registry.AddOrOverwrite(typeof(UIToggle), "isChecked");
+#else
             registry.AddOrOverwrite(typeof(UISlider), "sliderValue");
             registry.AddOrOverwrite(typeof(UICheckbox), "isChecked");
+#endif
+
             registry.AddOrOverwrite(typeof(UIButton), "onClick");
             registry.AddOrOverwrite(typeof(UIButtonMessage), "onClick");
-            registry.AddOrOverwrite(typeof(GameObject), "active");
+			
+			registry.AddOrOverwrite(typeof(InteractionRequestTrigger), "SourceObject");
 
             if (_fillBindingNamesAction != null)
                 _fillBindingNamesAction(registry);

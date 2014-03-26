@@ -72,27 +72,35 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
                     messageSubscriptions = new Dictionary<Guid, BaseSubscription>();
                     _subscriptions[typeof(TMessage)] = messageSubscriptions;
                 }
-                MvxTrace.Trace("Adding subscription {0} for {1}", subscription.Id, typeof(TMessage).Name);
+                MvxTrace.TaggedTrace(GetType().Name, "Adding subscription {0} for {1}", subscription.Id, typeof(TMessage).Name);
                 messageSubscriptions[subscription.Id] = subscription;
 
                 PublishSubscriberChangeMessage<TMessage>(messageSubscriptions);
             }
 
-            return new MvxSubscriptionToken(subscription.Id, deliveryAction);
+            return new MvxSubscriptionToken(
+                            subscription.Id,
+                            () => InternalUnsubscribe<TMessage>(subscription.Id),
+                            deliveryAction);
         }
 
         public void Unsubscribe<TMessage>(MvxSubscriptionToken mvxSubscriptionId) where TMessage : MvxMessage
+        {
+            InternalUnsubscribe<TMessage>(mvxSubscriptionId.Id);
+        }
+
+        private void InternalUnsubscribe<TMessage>(Guid subscriptionGuid) where TMessage : MvxMessage
         {
             lock (this)
             {
                 Dictionary<Guid, BaseSubscription> messageSubscriptions;
 
-                if (_subscriptions.TryGetValue(typeof (TMessage), out messageSubscriptions))
+                if (_subscriptions.TryGetValue(typeof(TMessage), out messageSubscriptions))
                 {
-                    if (messageSubscriptions.ContainsKey(mvxSubscriptionId.Id))
+                    if (messageSubscriptions.ContainsKey(subscriptionGuid))
                     {
-                        MvxTrace.Trace("Removing subscription {0}", mvxSubscriptionId);
-                        messageSubscriptions.Remove(mvxSubscriptionId.Id);
+                        MvxTrace.TaggedTrace(GetType().Name, "Removing subscription {0}", subscriptionGuid);
+                        messageSubscriptions.Remove(subscriptionGuid);
                         // Note - we could also remove messageSubscriptions if empty here
                         //      - but this isn't needed in our typical apps
                     }
@@ -106,12 +114,12 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
             Dictionary<Guid, BaseSubscription> messageSubscriptions)
             where TMessage : MvxMessage
         {
-            PublishSubscriberChangeMessage(typeof (TMessage), messageSubscriptions);
+            PublishSubscriberChangeMessage(typeof(TMessage), messageSubscriptions);
         }
 
         protected virtual void PublishSubscriberChangeMessage(
             Type messageType,
-            Dictionary<Guid, BaseSubscription> messageSubscriptions)        
+            Dictionary<Guid, BaseSubscription> messageSubscriptions)
         {
             var newCount = messageSubscriptions == null ? 0 : messageSubscriptions.Count;
             Publish(new MvxSubscriberChangeMessage(this, messageType, newCount));
@@ -185,14 +193,14 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
 
         public void Publish<TMessage>(TMessage message) where TMessage : MvxMessage
         {
-            if (typeof (TMessage) == typeof (MvxMessage))
+            if (typeof(TMessage) == typeof(MvxMessage))
             {
-                MvxTrace.Warning(
+                MvxTrace.TaggedWarning(GetType().Name,
                                "MvxMessage publishing not allowed - this normally suggests non-specific generic used in calling code - switching to message.GetType()");
                 Publish(message, message.GetType());
                 return;
             }
-            Publish(message, typeof (TMessage));
+            Publish(message, typeof(TMessage));
         }
 
         public void Publish(MvxMessage message)
@@ -211,23 +219,23 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
             lock (this)
             {
                 /*
-				MvxTrace.Trace("Found {0} subscriptions of all types", _subscriptions.Count);
-				foreach (var t in _subscriptions.Keys)
-				{
-					MvxTrace.Trace("Found  subscriptions for {0}", t.Name);
-				}
-				*/
+                MvxTrace.TaggedTrace(GetType().Name, "Found {0} subscriptions of all types", _subscriptions.Count);
+                foreach (var t in _subscriptions.Keys)
+                {
+                    MvxTrace.TaggedTrace(GetType().Name, "Found  subscriptions for {0}", t.Name);
+                }
+                */
                 Dictionary<Guid, BaseSubscription> messageSubscriptions;
                 if (_subscriptions.TryGetValue(messageType, out messageSubscriptions))
                 {
-                    //MvxTrace.Trace("Found {0} messages of type {1}", messageSubscriptions.Values.Count, typeof(TMessage).Name);
+                    //MvxTrace.TaggedTrace(GetType().Name, "Found {0} messages of type {1}", messageSubscriptions.Values.Count, typeof(TMessage).Name);
                     toNotify = messageSubscriptions.Values.ToList();
                 }
             }
 
             if (toNotify == null || toNotify.Count == 0)
             {
-                //MvxTrace.Trace("Nothing registered for messages of type {0}", messageType.Name);
+                MvxTrace.TaggedTrace(GetType().Name, "Nothing registered for messages of type {0}", messageType.Name);
                 return;
             }
 
@@ -239,7 +247,7 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
 
             if (!allSucceeded)
             {
-                MvxTrace.Trace("One or more listeners failed - purge scheduled");
+                MvxTrace.TaggedTrace(GetType().Name, "One or more listeners failed - purge scheduled");
                 SchedulePurge(messageType);
             }
         }
@@ -253,7 +261,7 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
         {
             lock (this)
             {
-                SchedulePurge(_subscriptions.Keys.ToArray());                
+                SchedulePurge(_subscriptions.Keys.ToArray());
             }
         }
 
@@ -308,7 +316,7 @@ namespace Cirrious.MvvmCross.Plugins.Messenger
                     }
                 }
 
-                MvxTrace.Trace("Purging {0} subscriptions", deadSubscriptionIds.Count);
+                MvxTrace.TaggedTrace(GetType().Name, "Purging {0} subscriptions", deadSubscriptionIds.Count);
                 foreach (var id in deadSubscriptionIds)
                 {
                     messageSubscriptions.Remove(id);

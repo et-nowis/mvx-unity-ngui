@@ -37,29 +37,32 @@ using Cirrious.MvvmCross.Binding.Unity;
 using Cirrious.MvvmCross.Platform;
 using Cirrious.MvvmCross.Unity.Views;
 using Cirrious.MvvmCross.Unity.Views.Presenters;
+using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
+using UnityEngine;
 
 namespace Cirrious.MvvmCross.Unity.Platform
 {
     public abstract class MvxUnitySetup
         : MvxSetup
     {
-        private readonly MvxApplicationDelegate _applicationDelegate;
+        private readonly MonoBehaviour _applicationDelegate;
 
         private IMvxUnityViewPresenter _presenter;
+		private Action<Action> _disptacher;
 
-        protected MvxUnitySetup(MvxApplicationDelegate applicationDelegate)
+        protected MvxUnitySetup(MonoBehaviour applicationDelegate)
         {
             _applicationDelegate = applicationDelegate;
         }
 
-        protected MvxUnitySetup(MvxApplicationDelegate applicationDelegate, IMvxUnityViewPresenter presenter)
+        protected MvxUnitySetup(MonoBehaviour applicationDelegate, IMvxUnityViewPresenter presenter)
         {
-            _applicationDelegate = applicationDelegate;
             _presenter = presenter;
+            _applicationDelegate = applicationDelegate;
         }
 
-        protected MvxApplicationDelegate ApplicationDelegate
+        protected MonoBehaviour ApplicationDelegate
         {
             get { return _applicationDelegate; }
         }
@@ -95,9 +98,23 @@ namespace Cirrious.MvvmCross.Unity.Platform
             Mvx.RegisterSingleton<IMvxCurrentRequest>(container);
         }
 
+        protected Action<Action> Dispatcher
+		{
+			get
+            {
+                _disptacher = _disptacher ?? CreateDispatcher();
+                return _disptacher;
+            }
+		}
+		
+		protected virtual Action<Action> CreateDispatcher()
+        {
+			return action => { UnityThreadHelper.Dispatcher.Dispatch(action); };
+        }
+
         protected override IMvxViewDispatcher CreateViewDispatcher()
         {
-            return new MvxUnityViewDispatcher(Presenter);
+            return new MvxUnityViewDispatcher( Dispatcher, Presenter);
         }
 
         protected override void InitializePlatformServices()
@@ -107,6 +124,17 @@ namespace Cirrious.MvvmCross.Unity.Platform
             RegisterOldStylePlatformProperties();
             RegisterPresenter();
         }
+
+        //		protected virtual void InitializeSavedStateConverter()
+        //        {
+        //            var converter = CreateSavedStateConverter();
+        //            Mvx.RegisterSingleton(converter);
+        //        }
+        //
+        //        protected virtual IMvxSavedStateConverter CreateSavedStateConverter()
+        //        {
+        //            return new MvxSavedStateConverter();
+        //        }
 
         protected virtual void RegisterPlatformProperties()
         {
@@ -136,24 +164,20 @@ namespace Cirrious.MvvmCross.Unity.Platform
         {
             var presenter = Presenter;
             Mvx.RegisterSingleton(presenter);
+            Mvx.RegisterSingleton<IMvxUnityModalHost>(presenter);
         }
 
         protected override void InitializeLastChance()
         {
-            InitialiseBindingBuilder();
+            InitializeBindingBuilder();
             base.InitializeLastChance();
         }
 
-        protected virtual void InitialiseBindingBuilder()
+        protected virtual void InitializeBindingBuilder()
         {
             RegisterBindingBuilderCallbacks();
             var bindingBuilder = CreateBindingBuilder();
             bindingBuilder.DoRegistration();
-        }
-
-        protected override void PerformBootstrapActions()
-        {
-
         }
 
         protected virtual void RegisterBindingBuilderCallbacks()
@@ -192,7 +216,6 @@ namespace Cirrious.MvvmCross.Unity.Platform
                 var toReturn = new List<Assembly>();
                 toReturn.AddRange(GetViewModelAssemblies());
                 toReturn.AddRange(GetViewAssemblies());
-                toReturn.Add(typeof(Cirrious.MvvmCross.Localization.MvxLanguageConverter).Assembly);
                 return toReturn;
             }
         }
@@ -200,6 +223,11 @@ namespace Cirrious.MvvmCross.Unity.Platform
         protected virtual void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
         {
             // this base class does nothing
+        }
+
+        protected override IMvxNameMapping CreateViewToViewModelNaming()
+        {
+            return new MvxPostfixAwareViewToViewModelNameMapping("View", "ViewController");
         }
     }
 }

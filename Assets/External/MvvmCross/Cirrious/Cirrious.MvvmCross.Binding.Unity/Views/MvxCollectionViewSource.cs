@@ -25,29 +25,48 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Windows.Input;
 using Cirrious.CrossCore.Core;
+using Cirrious.CrossCore.Unity.Views;
 using Cirrious.CrossCore.WeakSubscription;
 using Cirrious.MvvmCross.Binding.Attributes;
+using Cirrious.MvvmCross.Binding.ExtensionMethods;
 using Cirrious.MvvmCross.Unity.Views;
 using UnityEngine;
+using Cirrious.CrossCore;
 
 namespace Cirrious.MvvmCross.Binding.Unity.Views
 {
-    [AddComponentMenu("NGUIExtensions/UI/CollectionViewSource")]
-    public class MvxCollectionViewSource : MonoBehaviour
+    public class MvxCollectionViewSource : MvxBaseCollectionViewSource
     {
-
-        public GameObject Template;
-
-        public UIPanel Panel;
-        public UIDraggablePanel DraggablePanel;
-        public UIGrid Grid;
-
-        private List<GameObject> _childList = new List<GameObject>();
-
         private IEnumerable _itemsSource;
         private IDisposable _subscription;
+
+        public MvxCollectionViewSource(UICollectionView collectionView)
+            : base(collectionView)
+        {
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_subscription != null)
+                {
+                    _subscription.Dispose();
+                    _subscription = null;
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
+        public MvxCollectionViewSource(UICollectionView collectionView,
+                                       string defaultCellIdentifier)
+            : base(collectionView, defaultCellIdentifier)
+        {
+        }
 
         [MvxSetToNullAfterBinding]
         public virtual IEnumerable ItemsSource
@@ -67,208 +86,110 @@ namespace Cirrious.MvvmCross.Binding.Unity.Views
                 var collectionChanged = _itemsSource as INotifyCollectionChanged;
                 if (collectionChanged != null)
                 {
-                    _subscription = collectionChanged.WeakSubscribe(this.OnCollectionChanged);
+                    _subscription = collectionChanged.WeakSubscribe(CollectionChangedOnCollectionChanged);
                 }
-                ReloadData();
+
+                if (_itemsSource != null)
+                {
+                    Mvx.TaggedTrace(GetType().Name, "ItemsSource");
+                    ReloadData();
+                }
             }
         }
 
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        protected override object GetItemAt(IndexPath indexPath)
         {
+            if (ItemsSource == null)
+                return null;
+#if MVX_DBG
+            UnityEngine.Debug.LogError("MvxCollection view getting element!!!:" + indexPath.Index + ":" + indexPath.Row);
+            UnityEngine.Debug.LogError("Item source type:"+ItemsSource);
+#endif
+            return ItemsSource.ElementAt(indexPath.Row);
+        }
+
+        private void CollectionChangedOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            //Debug.Log( "OnCollectionChanged " + e.Action );
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Reset:
+                    Mvx.TaggedTrace(GetType().Name, "CollectionChangedOnCollectionChanged(Reset)");
                     ReloadData();
                     break;
                 case NotifyCollectionChangedAction.Add:
                     {
+                        Mvx.TaggedTrace(GetType().Name, "CollectionChangedOnCollectionChanged(Add)");
                         int startingIndex = e.NewStartingIndex;
                         int count = e.NewItems.Count;
+
+                        IndexPath[] indexPaths = new IndexPath[count];
+
                         for (int i = 0, k = startingIndex; i < count; ++i, ++k)
                         {
-                            var cell = CreateCellFor(Template, e.NewItems[i]);
-                            _childList.Insert(k, cell);
+                            indexPaths[i] = new IndexPath() { Index = k, Row = k };
                         }
-                        RenameCell(startingIndex, _childList.Count);
-                        Reposition();
+
+                        InsertItems(indexPaths);
+
+                        break;
                     }
-                    break;
                 case NotifyCollectionChangedAction.Remove:
                     {
+                        Mvx.TaggedTrace(GetType().Name, "CollectionChangedOnCollectionChanged(Remove)");
                         int startingIndex = e.OldStartingIndex;
                         int count = e.OldItems.Count;
+
+                        IndexPath[] indexPaths = new IndexPath[count];
+
                         for (int i = 0, k = startingIndex; i < count; ++i, ++k)
                         {
-                            UIEventListener.Get(_childList[k]).onClick -= ItemSelected;
-                            GameObject.DestroyImmediate(_childList[k]);
+                            indexPaths[i] = new IndexPath() { Index = k, Row = k };
                         }
-                        _childList.RemoveRange(startingIndex, count);
-                        RenameCell(startingIndex, _childList.Count);
-                        Reposition();
+                        DeleteItems(indexPaths);
+
+                        break;
                     }
-                    break;
                 case NotifyCollectionChangedAction.Replace:
                     {
-                        int startingIndex = e.NewStartingIndex;
-                        int count = e.NewItems.Count;
-                        for (int i = 0, k = startingIndex; i < count; ++i, ++k)
-                        {
-                            UIEventListener.Get(_childList[k]).onClick -= ItemSelected;
-                            GameObject.DestroyImmediate(_childList[k]);
-                            var cell = CreateCellFor(Template, e.NewItems[i]);
-                            _childList[k] = cell;
-                        }
-                        RenameCell(startingIndex, startingIndex + count);
-                        Reposition();
+                        throw new NotSupportedException("Replace is not supported");
+                        //int startingIndex = e.NewStartingIndex;
+                        //int count = e.NewItems.Count;
+                        //for (int i = 0, k = startingIndex; i < count; ++i, ++k)
+                        //{
+                        //    GameObject.Destroy(_childList[k]);
+                        //    var cell = GetOrCreateCellFor(_collectionView, "", e.NewItems[i]);
+                        //    _childList[k] = cell;
+                        //}
+                        //RenameCell(startingIndex, startingIndex + count);
+                        //Reposition();
+                        //break;
                     }
-                    break;
+
                 case NotifyCollectionChangedAction.Move:
                     {
-                        int newStartingIndex = e.NewStartingIndex;
-                        int oldStartingIndex = e.OldStartingIndex;
-                        int count = e.OldItems.Count;
-                        var children = _childList.GetRange(oldStartingIndex, count);
-                        _childList.RemoveRange(oldStartingIndex, count);
-                        _childList.InsertRange(newStartingIndex, children);
-                        RenameCell(Math.Min(oldStartingIndex, newStartingIndex), Math.Max(oldStartingIndex, newStartingIndex) + count);
-                        Reposition();
+                        throw new NotSupportedException("Move is not supported");
+                        //int newStartingIndex = e.NewStartingIndex;
+                        //int oldStartingIndex = e.OldStartingIndex;
+                        //int count = e.OldItems.Count;
+                        //var children = _childList.GetRange(oldStartingIndex, count);
+                        //_childList.RemoveRange(oldStartingIndex, count);
+                        //_childList.InsertRange(newStartingIndex, children);
+                        //RenameCell(Math.Min(oldStartingIndex, newStartingIndex), Math.Max(oldStartingIndex, newStartingIndex) + count);
+                        //Reposition();
+                        //break;
                     }
-                    break;
+
             }
+
         }
 
-        private void Awake()
+        public override int GetItemsCount(UICollectionView collectionView, int section)
         {
-            if (Panel == null)
-            {
-                Panel = this.GetComponent<UIPanel>();
-            }
+            if (ItemsSource == null)
+                return 0;
 
-            if (DraggablePanel == null)
-            {
-                DraggablePanel = this.GetComponent<UIDraggablePanel>();
-            }
-        }
-
-        private void OnDestroy()
-        {
-            if (_subscription != null)
-            {
-                _subscription.Dispose();
-                _subscription = null;
-            }
-        }
-
-        private void LateUpdate()
-        {
-            if (!Application.isPlaying) return;
-
-            if (Panel != null)
-            {
-                Panel.Refresh();
-            }
-        }
-
-        private void ReloadData()
-        {
-            foreach (var child in _childList)
-            {
-                GameObject.DestroyImmediate(child);
-            }
-            _childList.Clear();
-
-            if (ItemsSource != null)
-            {
-                int index = 0;
-                foreach (object item in ItemsSource)
-                {
-                    var cell = CreateCellFor(Template, item);
-                    _childList.Add(cell);
-                    ++index;
-                }
-
-                RenameCell(0, _childList.Count);
-            }
-
-            Reposition();
-        }
-
-        private GameObject CreateCellFor(GameObject template, object item)
-        {
-            GameObject parent = Grid != null ? Grid.gameObject : this.gameObject;
-            //GameObject cell = NGUITools.AddChild(parent, template);
-
-            GameObject cell = GameObject.Instantiate(template) as GameObject;
-
-            if (cell != null && parent != null)
-            {
-                Transform t = cell.transform;
-                t.parent = parent.transform;
-                t.localPosition = Vector3.zero;
-                t.localRotation = Quaternion.identity;
-                t.localScale = Vector3.one;
-            }
-
-            UIEventListener.Get(cell).onClick += ItemSelected;
-
-            //NGUITools.SetLayer(cell, parent.layer);
-            IMvxDataConsumer bindable = cell.GetComponent(typeof(IMvxDataConsumer)) as IMvxDataConsumer;
-            if (bindable != null)
-            {
-                bindable.DataContext = item;
-            }
-            return cell;
-        }
-
-        private void RenameCell(int from, int to)
-        {
-            for (int i = from; i < to; ++i)
-            {
-                _childList[i].name = string.Format("{0:000}", i);
-            }
-        }
-
-        private void Reposition()
-        {
-            if (Grid != null)
-            {
-                Grid.Reposition();
-            }
-            //if (DraggablePanel != null)
-            // {
-            //    DraggablePanel.ResetPosition();
-            // }
-        }
-
-        private object _selectedItem;
-        public object SelectedItem
-        {
-            get { return _selectedItem; }
-            set
-            {
-                // note that we only expect this to be called from the control/Table
-                // we don't have any multi-select or any scroll into view functionality here
-                _selectedItem = value;
-                var handler = SelectedItemChanged;
-                if (handler != null)
-                    handler(this, EventArgs.Empty);
-            }
-        }
-
-        public event EventHandler SelectedItemChanged;
-
-        public ICommand SelectionChangedCommand { get; set; }
-
-        void ItemSelected(GameObject go)
-        {
-            var item = go.GetComponent<MvxViewController>().DataContext;
-
-            var command = SelectionChangedCommand;
-
-            if (command != null)
-                command.Execute(item);
-
-            SelectedItem = item;
+            return ItemsSource.Count();
         }
 
     }

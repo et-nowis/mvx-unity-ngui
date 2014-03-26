@@ -11,10 +11,22 @@ namespace TestTutorial.ViewModels
             get { return _tipValue; }
             set { _tipValue = value; RaisePropertyChanged(() => TipValue); }
         }
-
+		
+		private SubViewModel _current;
+        public SubViewModel Current
+        {
+            get { return _current; }
+            set { _current = value; RaisePropertyChanged(() => Current); }
+        }
+		
         public HUDViewModel()
         {
         }
+
+        //public void Init( float First, string Second, string Answer )
+        //{
+        //	UnityEngine.Debug.Log( First );
+        //}
 
         public ICommand TipView1Command
         {
@@ -55,10 +67,37 @@ namespace TestTutorial.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    ShowViewModel<CollectionViewModel>();
+					ShowViewModel<CollectionViewModel>();
                 });
             }
         }
+		
+		public ICommand AlertCommand
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    AlertViewModel.Parameters param = new AlertViewModel.Parameters();
+                    param.Title = "Start?";
+                    param.Message = "Hello world";
+                    param.ButtonTexts = "OK,Cancel";
+                    param.UIIconNames = "";
+                    param.UIIconTexts = "";
+                    param.ItemIconNames = "";
+                    param.ItemIconTexts = "";
+                    param.ConfirmButtonTexts = "";
+					
+					ShowViewModel<AlertViewModel>(param);
+                });
+            }
+        }
+		
+		public void Init()
+		{
+			Current = new SubViewModel();
+			Current.Title = "Hello World";
+		}
 
     }
 

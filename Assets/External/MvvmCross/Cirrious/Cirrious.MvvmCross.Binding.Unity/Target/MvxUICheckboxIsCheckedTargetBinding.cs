@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 //
 
+#if !NGUI_3
+
 using System;
 using System.Reflection;
 using Cirrious.CrossCore.Platform;
@@ -72,3 +74,5 @@ namespace Cirrious.MvvmCross.Binding.Unity.Target
         }
     }
 }
+
+#endif

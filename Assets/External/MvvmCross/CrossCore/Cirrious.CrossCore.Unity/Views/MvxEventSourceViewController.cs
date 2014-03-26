@@ -28,9 +28,32 @@ namespace Cirrious.CrossCore.Unity.Views
 {
 
     public class MvxEventSourceViewController
-        : UIViewController,
-          IMvxEventSourceViewController
+        : UIViewController
+          , IMvxEventSourceViewController
     {
+        public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+            ViewWillDisappearCalled.Raise(this, animated);
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+            ViewDidAppearCalled.Raise(this, animated);
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            ViewWillAppearCalled.Raise(this, animated);
+        }
+
+        public override void ViewDidDisappear(bool animated)
+        {
+            base.ViewDidDisappear(animated);
+            ViewDidDisappearCalled.Raise(this, animated);
+        }
 
         protected override void ViewDidLoad()
         {
@@ -54,5 +77,4 @@ namespace Cirrious.CrossCore.Unity.Views
         public event EventHandler<MvxValueEventArgs<bool>> ViewWillDisappearCalled;
         public event EventHandler DisposeCalled;
     }
-
 }

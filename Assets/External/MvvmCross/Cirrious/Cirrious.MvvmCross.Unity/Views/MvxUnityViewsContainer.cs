@@ -55,12 +55,11 @@ namespace Cirrious.MvvmCross.Unity.Views
 
                     GameObject prefab = (GameObject)UnityEngine.Resources.Load(viewUrl);
 
-                    Camera uiCamera = NGUITools.FindCameraForLayer(prefab.layer);
-
                     Vector3 newPosition;
                     if (prefab.layer == LayerMask.NameToLayer("UI"))
                     {
-                        newPosition = new Vector3(0, 0, uiCamera.farClipPlane + 100f);
+						Camera uiCam = UICamera.FindCameraForLayer(prefab.layer).camera;
+                        newPosition = new Vector3(0, 0, uiCam.farClipPlane + 100f);
                     }
                     else
                     {

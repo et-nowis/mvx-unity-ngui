@@ -31,69 +31,101 @@ namespace Cirrious.CrossCore.Unity.Views
 
     public class UIViewController : MonoBehaviour, IDisposable
     {
-
         protected virtual void Awake()
         {
-
+			
         }
 
-        protected void Start()
+        protected virtual void Start()
         {
             this.ViewDidLoad();
         }
+		
+		public virtual void ViewWillDisappear(bool animated)
+        {
+        }
 
-        protected void OnDestroy()
+        public virtual void ViewDidAppear(bool animated)
+        {
+        }
+
+        public virtual void ViewWillAppear(bool animated)
+        {
+        }
+
+        public virtual void ViewDidDisappear(bool animated)
+        {
+		}
+		
+		protected virtual void ViewDidLoad()
+        {
+        }
+
+        protected virtual void OnDestroy()
         {
             this.Dispose();
-        }
-
-        protected virtual void ViewDidLoad()
-        {
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
         }
+		
+		public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         public virtual void PresentViewController(UIViewController viewController, bool animated, Action action)
         {
-            GameObject gameObject = viewController.gameObject;
+            GameObject go = viewController.gameObject;
             GameObject parent = this.gameObject;
 
             if (parent != null)
             {
-                Transform transform = gameObject.transform;
+                Transform transform = go.transform;
                 transform.parent = parent.transform;
+				
+#if NGUI_3			
+				foreach( UIPanel panel in go.GetComponentsInChildren<UIPanel>())
+				{
+					panel.depth = panel.depth + UIPanel.nextUnusedDepth;
+				}
+				transform.localPosition = new Vector3(0, 0, 0 );
+#else
                 transform.localPosition = new Vector3(0, 0, UINavigationController.Instance.ViewControllers.Count * -10);
+#endif
+				
                 transform.localRotation = Quaternion.identity;
                 transform.localScale = Vector3.one;
-                gameObject.layer = parent.layer;
+                go.layer = parent.layer;
             }
 
             if (viewController is IMvxModalUnityView)
             {
-                GameObject closeCollider = new GameObject("CloseCollider");
+				GameObject closeCollider = new GameObject("CloseCollider");
                 Transform transform = closeCollider.transform;
-                transform.parent = gameObject.transform;
-                transform.localPosition = new Vector3(0, 0, 1);
+                transform.parent = go.transform;
+#if NGUI_3	
+				transform.localPosition = new Vector3(0, 0, 0);
+				transform.localScale = new Vector3(1, 1, 1);
+#else
+				transform.localPosition = new Vector3(0, 0, 1);
+#endif
                 transform.localRotation = Quaternion.identity;
                 closeCollider.layer = LayerMask.NameToLayer("UI");
 
-                UIStretch uiStretch = closeCollider.AddComponent<UIStretch>();
-                uiStretch.style = UIStretch.Style.Both;
-
                 BoxCollider collider = closeCollider.AddComponent<BoxCollider>();
-                collider.size = new Vector3(1f, 1f, 0f);
-                collider.isTrigger = true;
+				collider.isTrigger = true;
+				collider.size = new Vector3(Screen.width, Screen.height, 0f);
+#if NGUI_3		
+				UIWidget uiWidget = closeCollider.AddComponent<UIWidget>();
+				uiWidget.width = Screen.width;
+				uiWidget.height = Screen.height;
+#endif
             }
 
-            Animate(gameObject, true, action);
+            Animate(go, true, action);
         }
 
         public virtual void DismissViewController(bool animated, Action action, bool destroy)
@@ -101,7 +133,16 @@ namespace Cirrious.CrossCore.Unity.Views
             Animate(this.gameObject, false, () =>
             {
                 if (action != null) action();
-                if (destroy) Destroy(this.gameObject);
+                if (destroy) 
+				{ 
+#if SPAWN_POOL
+					foreach( UICollectionView view in this.gameObject.GetComponentsInChildren<UICollectionView>())
+					{
+						view.DespawnChildList();	
+					}
+#endif
+					Destroy(this.gameObject);
+				}
             });
         }
 
@@ -110,10 +151,20 @@ namespace Cirrious.CrossCore.Unity.Views
             UITweener tween = gameObject.GetComponent<UITweener>();
             if (tween != null)
             {
-                tween.onFinished = tweener =>
+#if NGUI_3				
+				EventDelegate.Set( tween.onFinished, 
+	                () =>
+	                {
+	                    if (callback != null) callback();
+	                }
+				);
+#else
+				tween.onFinished = tweener =>
                 {
                     if (callback != null) callback();
                 };
+#endif				
+				
                 tween.Play(forward);
             }
             else

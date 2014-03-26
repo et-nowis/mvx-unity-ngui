@@ -44,6 +44,58 @@ namespace System.Collections.Specialized
             OldStartingIndex = -1;
         }
 
+        // ethan@frenzoo.com
+        // Added constructor for multi-item change
+        public NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction action, IList changedItems)
+        {
+            switch (action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    new_items = new List<object>();
+                    foreach (object changedItem in changedItems)
+                        new_items.Add(changedItem);
+                    NewStartingIndex = -1;
+                    OldStartingIndex = -1;
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    old_items = new List<object>();
+                    foreach (object changedItem in changedItems)
+                        old_items.Add(changedItem);
+                    NewStartingIndex = -1;
+                    OldStartingIndex = -1;
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+
+            Action = action;
+        }
+        
+        public NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction action, IList changedItems, int index)
+        {
+            switch (action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    new_items = new List<object>();
+                    foreach (object changedItem in changedItems)
+                        new_items.Add(changedItem);
+                    NewStartingIndex = index;
+                    OldStartingIndex = -1;
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    old_items = new List<object>();
+                    foreach (object changedItem in changedItems)
+                        old_items.Add(changedItem);
+                    NewStartingIndex = -1;
+                    OldStartingIndex = index;
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+
+            Action = action;
+        }
+
         public NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction action, object changedItem, int index)
         {
             switch (action)
@@ -69,9 +121,6 @@ namespace System.Collections.Specialized
 
         public NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction action, object changedItem, int index, int oldIndex)
         {
-            if (action != NotifyCollectionChangedAction.Move)
-                throw new NotSupportedException();
-
             Action = action;
 
             new_items = new List<object>();
@@ -86,9 +135,6 @@ namespace System.Collections.Specialized
 
         public NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction action, object newItem, object oldItem, int index)
         {
-            if (action != NotifyCollectionChangedAction.Replace)
-                throw new NotSupportedException();
-
             Action = action;
 
             new_items = new List<object>();

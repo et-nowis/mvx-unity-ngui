@@ -3,7 +3,7 @@ using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Unity.Views;
 using TestTutorial.ViewModels;
 
-[MvxUnityView("TestTutorial/Views/ModalDialogView")]
+[MvxUnityView("TestTutorial_NGUI_3/Views/ModalDialogView")]
 public class ModalDialogView : BaseViewController, IMvxModalUnityView
 {
     public UILabel dialogLabel;
@@ -20,24 +20,17 @@ public class ModalDialogView : BaseViewController, IMvxModalUnityView
     protected override void ViewDidLoad()
     {
         base.ViewDidLoad();
+		
+		var bindingSet = this.CreateBindingSet<ModalDialogView, ModalDialogViewModel>();
 
-        this.AddBindings(
-            new Dictionary<object, string>()
-                {
-                     { dialogLabel, "text Message" },
-					 { dialogLabel.gameObject, "active IsDialogLabelVisible" }
-                });
+ 			bindingSet.Bind(dialogLabel).To(vm => vm.Message);
+			bindingSet.Bind(dialogLabel.gameObject).To(vm => vm.IsDialogLabelVisible);
+			bindingSet.Bind(closeButton).To(vm => vm.CloseCommand);
+			bindingSet.Bind(okButton).To(vm => vm.OkCommand);
+			bindingSet.Bind(cancelButton).To(vm => vm.CancelCommand);
 
-
-        this.AddBindings(
-            new Dictionary<object, string>()
-                {
-                    // { TipValueLabel, "{'Text':{'Path':'TipValue'}}" }
-					 { closeButton, "onClick CloseCommand" },
-					 { okButton, "onClick OkCommand" },
-					 { cancelButton, "onClick CancelCommand" }
-                 });
-
+		bindingSet.Apply();
+		
         this.ViewModel.Message = "Hello World (Modal)";
     }
 

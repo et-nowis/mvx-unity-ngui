@@ -27,8 +27,8 @@ using Cirrious.MvvmCross.Binding.BindingContext;
 namespace Cirrious.MvvmCross.Binding.Unity.Views
 {
     public interface IMvxBindable
-        : IMvxBindingContextOwner,
-          IMvxDataConsumer
+        : IMvxBindingContextOwner
+          , IMvxDataConsumer
     {
     }
 }

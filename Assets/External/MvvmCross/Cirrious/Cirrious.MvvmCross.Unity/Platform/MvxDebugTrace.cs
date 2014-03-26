@@ -34,15 +34,15 @@ namespace Cirrious.MvvmCross.Unity.Platform
             switch (level)
             {
                 case MvxTraceLevel.Error:
-                    Debug.LogError(tag + ": " + level + ": " + message());
+                    Debug.LogError(string.Format("{0}:{1}:{2}", tag, level, message()));
                     break;
 
                 case MvxTraceLevel.Warning:
-                    Debug.LogWarning(tag + ": " + level + ": " + message());
+                    Debug.LogWarning(string.Format("{0}:{1}:{2}", tag, level, message()));
                     break;
 
                 case MvxTraceLevel.Diagnostic:
-                    Debug.Log(tag + ": " + level + ": " + message());
+                    Debug.Log(string.Format("{0}:{1}:{2}", tag, level, message()));
                     break;
             }
         }
@@ -52,15 +52,15 @@ namespace Cirrious.MvvmCross.Unity.Platform
             switch (level)
             {
                 case MvxTraceLevel.Error:
-                    Debug.LogError(tag + ": " + level + ": " + message);
+                    Debug.LogError(string.Format("{0}:{1}:{2}", tag, level, message));
                     break;
 
                 case MvxTraceLevel.Warning:
-                    Debug.LogWarning(tag + ": " + level + ": " + message);
+                    Debug.LogWarning(string.Format("{0}:{1}:{2}", tag, level, message));
                     break;
 
                 case MvxTraceLevel.Diagnostic:
-                    Debug.Log(tag + ": " + level + ": " + message);
+                    Debug.Log(string.Format("{0}:{1}:{2}", tag, level, message));
                     break;
             }
         }
@@ -70,15 +70,15 @@ namespace Cirrious.MvvmCross.Unity.Platform
             switch (level)
             {
                 case MvxTraceLevel.Error:
-                    Debug.LogError(string.Format(tag + ": " + level + ": " + message, args));
+                    Debug.LogError(string.Format(string.Format("{0}:{1}:{2}", tag, level, message), args));
                     break;
 
                 case MvxTraceLevel.Warning:
-                    Debug.LogWarning(string.Format(tag + ": " + level + ": " + message, args));
+                    Debug.LogWarning(string.Format(string.Format("{0}:{1}:{2}", tag, level, message), args));
                     break;
 
                 case MvxTraceLevel.Diagnostic:
-                    Debug.Log(string.Format(tag + ": " + level + ": " + message, args));
+                    Debug.Log(string.Format(string.Format("{0}:{1}:{2}", tag, level, message), args));
                     break;
             }
 

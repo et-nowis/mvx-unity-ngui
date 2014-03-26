@@ -1,12 +1,15 @@
 using System.Collections.Generic;
+using System.Windows.Interactivity;
 using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Unity.Views;
 using TestTutorial.ViewModels;
 using UnityEngine;
 
-[MvxUnityView("TestTutorial/Views/AlertView")]
+[MvxUnityView("TestTutorial_NGUI_3/Views/AlertView")]
 public class AlertView : BaseViewController, IMvxModalUnityView
 {
+	public InteractionRequestTrigger ButtonClickTrigger = new InteractionRequestTrigger();
+	
     public UILabel messageLabel;
     public UILabel captionLabel;
 
@@ -38,13 +41,17 @@ public class AlertView : BaseViewController, IMvxModalUnityView
     protected override void ViewDidLoad()
     {
         base.ViewDidLoad();
-
+		
         var bindingSet = this.CreateBindingSet<AlertView, AlertViewModel>();
-        bindingSet.Bind(ConfirmButton).To(vm => vm.ConfirmButtonClickCommand);
-        bindingSet.Bind(CloseButton).To(vm => vm.CloseCommand);
+		
+        	bindingSet.Bind(ConfirmButton).To(vm => vm.ConfirmButtonClickCommand);
+        	bindingSet.Bind(CloseButton).To(vm => vm.CloseCommand);
+		
+			AddDisposable(ButtonClickTrigger.WeakSubscribe(OnButtonClickTrigger));
+			bindingSet.Bind(ButtonClickTrigger).To(vm => vm.ButtonClickInteractionRequest);
+		
         bindingSet.Apply();
-
-
+		
         messageLabel.text = this.ViewModel.Message;
         captionLabel.text = this.ViewModel.Title;
 
@@ -66,8 +73,9 @@ public class AlertView : BaseViewController, IMvxModalUnityView
                 UIEventListener.Get(button.gameObject).onClick = OnButtonClick;
 
                 buttons.Add(button);
-                buttonBound = NGUIMath.CalculateRelativeWidgetBounds(button.transform);
 
+				buttonBound = NGUIMath.CalculateRelativeWidgetBounds(button.transform);
+				
                 i++;
             }
 
@@ -154,13 +162,41 @@ public class AlertView : BaseViewController, IMvxModalUnityView
         }
 
         UpdateConfirmButton();
+
+        //Debug.Log( buttonBound.size );
+        //Debug.Log( ButtonGroupBound.size );
+
+        //this.ButtonGroup.transform.localPosition = new Vector3( this.ButtonGroup.transform.localPosition.x - ( uiGrid.cellWidth * 0.5f ) * (i - 1), this.ButtonGroup.transform.localPosition.y, 0 );
+
     }
+
+    //protected override void Dispose(bool disposing)
+    //{
+    //    if (disposing)
+    //    {
+    //        foreach (UIButton button in buttons)
+    //        {
+    //            if (button != null)
+    //            {
+    //                UIEventListener.Get(button.gameObject).onClick -= OnButtonClick;
+    //            }
+    //        }
+    //    }
+    //    base.Dispose(disposing);
+    //}
 
     public void OnButtonClick(GameObject go)
     {
         int buttonIndex = int.Parse(go.name);
         this.ViewModel.ButtonClickCommand.Execute(buttonIndex);
     }
+	
+	private void OnButtonClickTrigger(object sender, InteractionRequestedEventArgs e)
+	{
+		Debug.Log( "OnButtonClickTrigger" );
+		if ( e.Callback != null )
+			e.Callback();
+	}
 
     private void UpdateConfirmButton()
     {

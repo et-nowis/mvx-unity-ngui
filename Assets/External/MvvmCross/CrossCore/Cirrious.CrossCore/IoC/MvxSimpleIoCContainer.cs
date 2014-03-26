@@ -18,7 +18,7 @@ namespace Cirrious.CrossCore.IoC
         : MvxSingleton<IMvxIoCProvider>
           , IMvxIoCProvider
     {
-        public static IMvxIoCProvider Initialise()
+        public static IMvxIoCProvider Initialize()
         {
             if (Instance != null)
             {
@@ -26,8 +26,8 @@ namespace Cirrious.CrossCore.IoC
             }
 
             // create a new ioc container - it will register itself as the singleton
-            var ioc = new MvxSimpleIoCContainer();
-            return Instance;
+            new MvxSimpleIoCContainer();
+			return Instance;
         }
 
         private readonly Dictionary<Type, IResolver> _resolvers = new Dictionary<Type, IResolver>();
@@ -315,13 +315,13 @@ namespace Cirrious.CrossCore.IoC
             IResolver resolver;
             if (!_resolvers.TryGetValue(type, out resolver))
             {
-                resolved = CreateDefault(type);
+                resolved = type.CreateDefault();
                 return false;
             }
 
             if (!resolver.Supports(resolveOptions))
             {
-                resolved = CreateDefault(type);
+                resolved = type.CreateDefault();
                 return false;
             }
 
@@ -355,12 +355,7 @@ namespace Cirrious.CrossCore.IoC
             }
         }
 
-        private static object CreateDefault(Type type)
-        {
-            return type.IsValueType ? Activator.CreateInstance(type) : null;
-        }
-
-        private List<object> GetIoCParameterValues(Type type, ConstructorInfo firstConstructor)
+        protected virtual List<object> GetIoCParameterValues(Type type, ConstructorInfo firstConstructor)
         {
             var parameters = new List<object>();
             foreach (var parameterInfo in firstConstructor.GetParameters())

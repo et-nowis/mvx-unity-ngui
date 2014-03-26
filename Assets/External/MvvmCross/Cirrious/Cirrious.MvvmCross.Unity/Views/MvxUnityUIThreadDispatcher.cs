@@ -22,34 +22,24 @@
 //
 
 using System;
-using System.Reflection;
-using System.Threading;
 using Cirrious.CrossCore.Core;
-using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Platform;
-using Cirrious.MvvmCross.Unity.Platform;
 
 namespace Cirrious.MvvmCross.Unity.Views
 {
     public abstract class MvxUnityUIThreadDispatcher
         : MvxMainThreadDispatcher
     {
-        private readonly SynchronizationContext _uiSynchronizationContext;
+        private readonly Action<Action> _dispatcher;
 
-        protected MvxUnityUIThreadDispatcher()
+        protected MvxUnityUIThreadDispatcher(Action<Action> dispatcher)
         {
-            if (SynchronizationContext.Current == null)
-                SynchronizationContext.SetSynchronizationContext(new UnitySynchronizationContext());
-            _uiSynchronizationContext = SynchronizationContext.Current;
+            _dispatcher = dispatcher;
         }
 
         public bool RequestMainThreadAction(Action action)
         {
-            if (_uiSynchronizationContext == SynchronizationContext.Current)
-                action();
-            else
-                _uiSynchronizationContext.Post(state => ExceptionMaskedAction(action), null);
-            return true;
+            _dispatcher.Invoke(() => ExceptionMaskedAction(action));
+			return true;
         }
     }
 }

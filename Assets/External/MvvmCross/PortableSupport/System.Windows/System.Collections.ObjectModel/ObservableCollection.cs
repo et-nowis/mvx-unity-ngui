@@ -83,13 +83,7 @@ namespace System.Collections.ObjectModel
         }
 
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
-        protected virtual event PropertyChangedEventHandler PropertyChanged;
-
-        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
-        {
-            add { PropertyChanged += value; }
-            remove { PropertyChanged -= value; }
-        }
+        public virtual event PropertyChangedEventHandler PropertyChanged;
 
         protected IDisposable BlockReentrancy()
         {
@@ -190,5 +184,42 @@ namespace System.Collections.ObjectModel
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, item, oldItem, index));
             OnPropertyChanged(new PropertyChangedEventArgs(IndexerName));
         }
+
+        // ethan@frenzoo.com
+        // Non-standard implementation
+        public void AddRange(IEnumerable<T> collection)
+        {
+            CheckReentrancy();
+
+            int index = Count;
+            IList list = new List<T>();
+            foreach (var item in collection)
+            {
+                base.InsertItem(Count, item);
+                list.Add(item);
+            }
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, list, index));
+            OnPropertyChanged(new PropertyChangedEventArgs(CountString));
+            OnPropertyChanged(new PropertyChangedEventArgs(IndexerName));
+        }
+
+        // ethan@frenzoo.com
+        // Non-standard implementation
+        public void RemoveRange(IEnumerable<T> collection)
+        {
+            CheckReentrancy();
+            IList list = new List<T>();
+            foreach (var item in collection)
+            {
+                base.RemoveItem(IndexOf(item));
+                list.Add(item);
+            }
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, list));
+            OnPropertyChanged(new PropertyChangedEventArgs(CountString));
+            OnPropertyChanged(new PropertyChangedEventArgs(IndexerName));
+        }
+
     }
 }

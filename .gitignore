@@ -1,0 +1,6 @@
+Assets/External/NGUI/
+Library/
+*.sln
+*.userprefs
+*.pidb
+Temp/

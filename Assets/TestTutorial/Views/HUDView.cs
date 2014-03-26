@@ -2,8 +2,11 @@ using System.Collections.Generic;
 using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Unity.Views;
 using TestTutorial.ViewModels;
+using TestTutorial.Converters;
+using UnityEngine;
+using Cirrious.MvvmCross.Binding.Unity.Views;
 
-[MvxUnityView("TestTutorial/Views/HUDView")]
+[MvxUnityView("TestTutorial_NGUI_3/Views/HUDView")]
 public class HUDView : BaseViewController
 {
     public UILabel tipValueLabel;
@@ -12,6 +15,12 @@ public class HUDView : BaseViewController
     public UIButton showModalDialogButton;
     public UIButton showDialogButton;
     public UIButton buildButton;
+	
+	public UIButton alertButton;
+	
+	public UIInput input;
+	
+	public GameObject SubViewPrefab;
 
     public new HUDViewModel ViewModel
     {
@@ -22,23 +31,28 @@ public class HUDView : BaseViewController
     protected override void ViewDidLoad()
     {
         base.ViewDidLoad();
-
-        this.AddBindings(
-        new Dictionary<object, string>()
-            {
-                 { tipValueLabel, "text TipValue, Converter=StringFormat, ConverterParameter='{0:0.000}'" }
-            });
-
-        this.AddBindings(
-            new Dictionary<object, string>()
-                {
-					 { tipView1Button , "onClick TipView1Command" },
-					 { showDialogButton , "onClick ShowDialogCommand" },
-					 { showModalDialogButton , "onClick ShowModalDialogCommand" },
-					 { buildButton , "onClick BuildCommand" },
-                 });
-
-        this.ViewModel.TipValue = 0.25f;
+		
+		
+		//Create SubView
+		GameObject go = GameObject.Instantiate( SubViewPrefab.gameObject, Vector3.zero, Quaternion.identity ) as GameObject;
+		go.transform.parent = this.transform;
+		go.transform.localScale = Vector3.one;
+		go.transform.localPosition = Vector3.zero;
+		var currentSubView = go.GetComponent<MvxView>();
+		
+		
+		var bindingSet = this.CreateBindingSet<HUDView, HUDViewModel>();
+		
+			bindingSet.Bind(tipValueLabel).To(vm => vm.TipValue).WithConversion(Converters.StringFormat, "{0:0.000}");
+			bindingSet.Bind(tipView1Button).To(vm => vm.TipView1Command);
+			bindingSet.Bind(showDialogButton).To(vm => vm.ShowDialogCommand);
+			bindingSet.Bind(showModalDialogButton).To(vm => vm.ShowModalDialogCommand);
+			bindingSet.Bind(buildButton).To(vm => vm.BuildCommand);
+			bindingSet.Bind(alertButton).To(vm => vm.AlertCommand);
+		
+			bindingSet.Bind(currentSubView).For(s => s.DataContext).To(vm => vm.Current);
+		
+		bindingSet.Apply();
 
     }
 

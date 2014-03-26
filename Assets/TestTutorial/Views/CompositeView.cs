@@ -1,8 +1,8 @@
-using Cirrious.CrossCore;
 using Cirrious.CrossCore.Unity.Views;
 using Cirrious.MvvmCross.Unity.Views;
 using Cirrious.MvvmCross.ViewModels;
 using UnityEngine;
+using TestTutorial.ViewModels;
 
 public class CompositeView : BaseTabBarViewController
 {
@@ -15,7 +15,7 @@ public class CompositeView : BaseTabBarViewController
 
     protected override void ViewDidLoad()
     {
-        Mvx.Trace("CompositeView ViewDidLoad ");
+        Debug.Log("CompositeView ViewDidLoad ");
         base.ViewDidLoad();
 
         if (ViewModel == null) return;
@@ -25,14 +25,23 @@ public class CompositeView : BaseTabBarViewController
                                 CreateTabFor("Tip", "", ViewModel.Tip),
                                 CreateTabFor("Tip2", "", ViewModel.Tip2)
                               };
+
+
+        // set our selected item
+        //SelectedViewController = ViewControllers[0];
     }
 
     private UIViewController CreateTabFor(string title, string imageName, IMvxViewModel viewModel)
     {
-        Mvx.Trace("CreateTabFor");
+        Debug.Log("CreateTabFor ");
         var innerView = (UIViewController)this.CreateViewControllerFor(viewModel);
 
         PresentViewController(innerView, false, () => { });
+        //innerView.Title = title;
+        //innerView.TabBarItem = new UITabBarItem(
+        //                        title, 
+        //                        UIImage.FromBundle("Images/Tabs/" + imageName + ".png"),
+        //                        _createdSoFarCount++);
         return innerView;
     }
 

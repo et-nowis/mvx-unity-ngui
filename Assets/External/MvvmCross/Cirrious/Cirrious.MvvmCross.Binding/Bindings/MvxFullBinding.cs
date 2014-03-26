@@ -6,12 +6,12 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using System.Globalization;
+using Cirrious.CrossCore.Converters;
 using Cirrious.CrossCore.Exceptions;
+using Cirrious.CrossCore.IoC;
 using Cirrious.CrossCore.Platform;
-using Cirrious.MvvmCross.Binding.Binders;
 using Cirrious.MvvmCross.Binding.Bindings.Source;
-using Cirrious.MvvmCross.Binding.Bindings.Source.Construction;
+using Cirrious.MvvmCross.Binding.Bindings.SourceSteps;
 using Cirrious.MvvmCross.Binding.Bindings.Target;
 using Cirrious.MvvmCross.Binding.Bindings.Target.Construction;
 
@@ -21,9 +21,9 @@ namespace Cirrious.MvvmCross.Binding.Bindings
         : MvxBinding
           , IMvxUpdateableBinding
     {
-        private IMvxSourceBindingFactory SourceBindingFactory
+        private IMvxSourceStepFactory SourceStepFactory
         {
-            get { return MvxBindingSingletonCache.Instance.SourceBindingFactory; }
+            get { return MvxBindingSingletonCache.Instance.SourceStepFactory; }
         }
 
         private IMvxTargetBindingFactory TargetBindingFactory
@@ -32,10 +32,12 @@ namespace Cirrious.MvvmCross.Binding.Bindings
         }
 
         private readonly MvxBindingDescription _bindingDescription;
-        private IMvxSourceBinding _sourceBinding;
+        private IMvxSourceStep _sourceStep;
         private IMvxTargetBinding _targetBinding;
 
         private object _dataContext;
+        private EventHandler _sourceBindingOnChanged;
+        private EventHandler<MvxTargetChangedEventArgs> _targetBindingOnValueChanged;
 
         public object DataContext
         {
@@ -45,8 +47,10 @@ namespace Cirrious.MvvmCross.Binding.Bindings
                 if (_dataContext == value)
                     return;
 
-                ClearSourceBinding();
-                CreateSourceBinding(value);
+                _dataContext = value;
+                if (_sourceStep != null)
+                    _sourceStep.DataContext = value;
+                UpdateTargetOnBind();
             }
         }
 
@@ -59,27 +63,70 @@ namespace Cirrious.MvvmCross.Binding.Bindings
 
         protected virtual void ClearSourceBinding()
         {
-            if (_sourceBinding != null)
+            if (_sourceStep != null)
             {
-                _sourceBinding.Dispose();
-                _sourceBinding = null;
+                if (_sourceBindingOnChanged != null)
+                {
+                    _sourceStep.Changed -= _sourceBindingOnChanged;
+                    _sourceBindingOnChanged = null;
+                }
+
+                _sourceStep.Dispose();
+                _sourceStep = null;
             }
         }
 
         private void CreateSourceBinding(object source)
         {
             _dataContext = source;
-            _sourceBinding = SourceBindingFactory.CreateBinding(source, _bindingDescription.SourcePropertyPath);
+            _sourceStep = SourceStepFactory.Create(_bindingDescription.Source);
+            _sourceStep.TargetType = _targetBinding.TargetType;
+            _sourceStep.DataContext = source;
 
             if (NeedToObserveSourceChanges)
-                _sourceBinding.Changed += (sender, args) => UpdateTargetFromSource(args.IsAvailable, args.Value);
+            {
+                _sourceBindingOnChanged = (sender, args) =>
+                    {
+                        var value = _sourceStep.GetValue();
+                        UpdateTargetFromSource(value);
+                    };
+                _sourceStep.Changed += _sourceBindingOnChanged;
+            }
 
-            if (NeedToUpdateTargetOnBind)
+            UpdateTargetOnBind();
+        }
+
+        private void UpdateTargetOnBind()
+        {
+            if (NeedToUpdateTargetOnBind && _sourceStep != null)
             {
                 // note that we expect Bind to be called on the UI thread - so no need to use RunOnUIThread here
-                object currentValue;
-                bool currentIsAvailable = _sourceBinding.TryGetValue(out currentValue);
-                UpdateTargetFromSource(currentIsAvailable, currentValue);
+
+                try
+                {
+                    var currentValue = _sourceStep.GetValue();
+                    UpdateTargetFromSource(currentValue);
+                }
+                catch (Exception exception)
+                {
+                    MvxBindingTrace.Trace("Exception masked in UpdateTargetOnBind {0}", exception.ToLongString());
+                }
+            }
+        }
+
+
+        protected virtual void ClearTargetBinding()
+        {
+            if (_targetBinding != null)
+            {
+                if (_targetBindingOnValueChanged != null)
+                {
+                    _targetBinding.ValueChanged -= _targetBindingOnValueChanged;
+                    _targetBindingOnValueChanged = null;
+                }
+
+                _targetBinding.Dispose();
+                _targetBinding = null;
             }
         }
 
@@ -96,29 +143,23 @@ namespace Cirrious.MvvmCross.Binding.Bindings
 
             if (NeedToObserveTargetChanges)
             {
-                _targetBinding.ValueChanged += (sender, args) => UpdateSourceFromTarget(args.Value);
+                _targetBinding.SubscribeToEvents();
+                _targetBindingOnValueChanged = (sender, args) => UpdateSourceFromTarget(args.Value);
+                _targetBinding.ValueChanged += _targetBindingOnValueChanged;
             }
         }
 
         private void UpdateTargetFromSource(
-            bool isAvailable,
             object value)
         {
+            if (value == MvxBindingConstant.DoNothing)
+                return;
+
+            if (value == MvxBindingConstant.UnsetValue)
+                value = _targetBinding.TargetType.CreateDefault();
+
             try
             {
-                if (isAvailable)
-                {
-                    if (_bindingDescription.Converter != null)
-                        value =
-                            _bindingDescription.Converter.Convert(value,
-                                                                  _targetBinding.TargetType,
-                                                                  _bindingDescription.ConverterParameter,
-                                                                  CultureInfo.CurrentUICulture);
-                }
-                else
-                {
-                    value = _bindingDescription.FallbackValue;
-                }
                 _targetBinding.SetValue(value);
             }
             catch (Exception exception)
@@ -134,15 +175,15 @@ namespace Cirrious.MvvmCross.Binding.Bindings
         private void UpdateSourceFromTarget(
             object value)
         {
+            if (value == MvxBindingConstant.DoNothing)
+                return;
+
+            if (value == MvxBindingConstant.UnsetValue)
+                return;
+
             try
             {
-                if (_bindingDescription.Converter != null)
-                    value =
-                        _bindingDescription.Converter.ConvertBack(value,
-                                                                  _sourceBinding.SourceType,
-                                                                  _bindingDescription.ConverterParameter,
-                                                                  CultureInfo.CurrentUICulture);
-                _sourceBinding.SetValue(value);
+                _sourceStep.SetValue(value);
             }
             catch (Exception exception)
             {
@@ -196,10 +237,8 @@ namespace Cirrious.MvvmCross.Binding.Bindings
         {
             if (isDisposing)
             {
-                if (_targetBinding != null)
-                    _targetBinding.Dispose();
-                if (_sourceBinding != null)
-                    _sourceBinding.Dispose();
+                ClearTargetBinding();
+                ClearSourceBinding();
             }
         }
     }

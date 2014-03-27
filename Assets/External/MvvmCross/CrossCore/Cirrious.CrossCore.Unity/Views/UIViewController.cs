@@ -89,7 +89,7 @@ namespace Cirrious.CrossCore.Unity.Views
 #if NGUI_3			
 				foreach( UIPanel panel in go.GetComponentsInChildren<UIPanel>())
 				{
-					panel.depth = panel.depth + UIPanel.nextUnusedDepth;
+					panel.depth = panel.depth + UINavigationController.Instance.ViewControllers.Count;
 				}
 				transform.localPosition = new Vector3(0, 0, 0 );
 #else

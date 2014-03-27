@@ -10,7 +10,6 @@ using Cirrious.MvvmCross.Plugins.File;
 //using MonoTouch.Foundation;
 //using MonoTouch.UIKit;
 using UnityEngine;
-using System.IO;
 
 namespace Cirrious.MvvmCross.Plugins.DownloadCache.Unity
 {
@@ -18,26 +17,19 @@ namespace Cirrious.MvvmCross.Plugins.DownloadCache.Unity
         : IMvxLocalFileImageLoader<Texture2D>    
     {
 		private const string ResourcePrefix = "Resources/";
-		private const string StreamingAssetPrefix = "StreamingAssets/";
 
         public MvxImage<Texture2D> Load(string localPath, bool shouldCache)
         {
-			Texture2D uiImage = null;
+			Texture2D uiImage;
             if (localPath.StartsWith(ResourcePrefix))
 			{
 				var resourcePath = localPath.Substring(ResourcePrefix.Length);
 				uiImage = LoadResourceImage(resourcePath, shouldCache);
 			}
-			else if (localPath.StartsWith(StreamingAssetPrefix))
-			{
-				var steamingAssetPath = Path.Combine( Application.streamingAssetsPath, localPath.Substring(StreamingAssetPrefix.Length));
-				uiImage = LoadTexture2D(steamingAssetPath);
-			}
 			else
 			{
 				uiImage = LoadTexture2D(localPath);
 			}
-
             return new MvxUnityImage(uiImage);
         }
 

@@ -4,3 +4,5 @@ Library/
 *.userprefs
 *.pidb
 Temp/
+Assets/External/NGUI.meta
+*.csproj
